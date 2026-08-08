@@ -55,7 +55,9 @@ html[dir="ltr"] .header{left:var(--sidebar-w);right:0}
 .header-btn:hover{background:#f5f5f5;color:var(--gold)}
 .user-menu{display:flex;align-items:center;gap:10px;padding:6px 12px;border-radius:8px;cursor:pointer;border:1px solid #e8e8e8;background:#fff;transition:.2s}
 .user-menu:hover{background:#f5f5f5}
-.user-avatar{width:32px;height:32px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--dark);font-weight:700;font-size:13px}
+.user-avatar{width:36px;height:36px;min-width:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--dark);font-weight:700;font-size:13px;overflow:hidden;border:2px solid rgba(201,168,76,.35)}
+.user-avatar img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+.user-info{min-width:0}
 .user-name{font-size:13px;font-weight:600;color:var(--dark)}
 .user-role{font-size:11px;color:#888}
 
@@ -175,6 +177,8 @@ html[dir="ltr"] .dropdown-menu{right:0}
 .dropdown-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;color:#333;text-decoration:none;transition:.15s}
 html[dir="rtl"] .dropdown-item{text-align:right}
 html[dir="ltr"] .dropdown-item{text-align:left}
+.dropdown-menu[dir="rtl"]{direction:rtl;text-align:right}
+.dropdown-menu[dir="rtl"] .dropdown-item{direction:rtl;justify-content:flex-start;text-align:right}
 .dropdown-item:hover{background:#f8f9fa;color:var(--gold)}
 .dropdown-item i{width:14px;color:#999}
 .dropdown-divider{height:1px;background:#f0f0f0;margin:4px 0}
@@ -245,8 +249,10 @@ html[dir="ltr"] .header{left:0}
   <div class="sidebar-logo" style="justify-content:center;padding:14px 16px;position:relative">
     <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
     <a href="{{ route('home') }}" target="_blank" style="display:block">
-      <img src="{{ asset('images/logo.png') }}" alt="{{ __('messages.site_name') }}"
-           style="height:72px;width:auto;display:block;object-fit:contain;margin:0 auto">
+     @include('partials.site-logo', [
+    'class' => 'site-logo',
+    'style' => 'max-width:180px;max-height:70px;object-fit:contain'
+])
     </a>
   </div>
   <nav class="sidebar-nav">
@@ -377,89 +383,211 @@ html[dir="ltr"] .header{left:0}
     <a href="{{ route('home') }}" target="_blank" class="header-btn" title="{{ __('admin.nav_view_site') }}">
       <i class="fa-solid fa-arrow-up-right-from-square"></i>
     </a>
+{{-- Notification bell --}}
+@php
+    $typeIcon = [
+        'article'    => 'fa-newspaper',
+        'contact'    => 'fa-envelope',
+        'user'       => 'fa-user',
+        'comment'    => 'fa-comment',
+        'newsletter' => 'fa-bell',
+    ];
 
-    {{-- Notification bell --}}
-    @php
-      $typeIcon  = ['article'=>'fa-newspaper','contact'=>'fa-envelope','user'=>'fa-user','comment'=>'fa-comment','newsletter'=>'fa-bell'];
-      $typeColor = ['article'=>'#c89a2b','contact'=>'#3498db','user'=>'#27ae60','comment'=>'#e67e22','newsletter'=>'#9b59b6'];
-      $typeUrl   = ['article'=>route('admin.articles.index'),'contact'=>route('admin.contact.index'),'user'=>route('admin.users.index'),'comment'=>route('admin.comments.index'),'newsletter'=>route('admin.newsletter.index')];
-    @endphp
-    <div class="notif-btn header-btn" id="notifBtn" onclick="toggleNotif(event)" title="{{ __('admin.notif_title') }}" style="position:relative;cursor:pointer">
-      <i class="fa-solid fa-bell"></i>
-      @if($adminUnreadCount > 0)
-      <span class="notif-badge">{{ $adminUnreadCount > 99 ? '99+' : $adminUnreadCount }}</span>
-      @endif
-      <div class="notif-panel" id="notifPanel" onclick="event.stopPropagation()">
+    $typeColor = [
+        'article'    => '#c89a2b',
+        'contact'    => '#3498db',
+        'user'       => '#27ae60',
+        'comment'    => '#e67e22',
+        'newsletter' => '#9b59b6',
+    ];
+
+    $typeUrl = [
+        'article'    => route('admin.articles.index'),
+        'contact'    => route('admin.contact.index'),
+        'user'       => route('admin.users.index'),
+        'comment'    => route('admin.comments.index'),
+        'newsletter' => route('admin.newsletter.index'),
+    ];
+@endphp
+
+<div
+    class="notif-btn header-btn"
+    id="notifBtn"
+    data-latest-id="{{ (int) ($adminRecentNotifications->max('id') ?? 0) }}"
+    onclick="toggleNotif(event)"
+    title="{{ __('admin.notif_title') }}"
+    style="position:relative;cursor:pointer"
+>
+    <i class="fa-solid fa-bell"></i>
+
+    <span
+        class="notif-badge"
+        id="notifBadge"
+        style="{{ $adminUnreadCount > 0 ? '' : 'display:none' }}"
+    >
+        {{ $adminUnreadCount > 99 ? '99+' : $adminUnreadCount }}
+    </span>
+
+    <div
+        class="notif-panel"
+        id="notifPanel"
+        onclick="event.stopPropagation()"
+    >
         <div class="notif-panel-head">
-          <strong>{{ __('admin.notif_title') }}</strong>
-          <a href="{{ route('admin.notifications.index') }}">{{ __('admin.notif_view_all') }}</a>
+            <strong>{{ __('admin.notif_title') }}</strong>
+
+            <a href="{{ route('admin.notifications.index') }}">
+                {{ __('admin.notif_view_all') }}
+            </a>
         </div>
-        <div class="notif-list">
-          @forelse($adminRecentNotifications as $notif)
-          @php
-            $ni = $typeIcon[$notif->type]  ?? 'fa-circle-info';
-            $nc = $typeColor[$notif->type] ?? '#888';
-            $nu = $typeUrl[$notif->type]   ?? route('admin.notifications.index');
-          @endphp
-          <a href="{{ $nu }}" class="notif-item {{ $notif->read_at ? '' : 'unread' }}"
-             onclick="markRead(event, {{ $notif->id }}, '{{ $nu }}')">
-            <div class="notif-icon" style="background:{{ $nc }}22">
-              <i class="fa-solid {{ $ni }}" style="color:{{ $nc }}"></i>
+
+        <div class="notif-list" id="notificationList">
+            @forelse($adminRecentNotifications as $notif)
+                @php
+                    $ni = $typeIcon[$notif->type] ?? 'fa-circle-info';
+                    $nc = $typeColor[$notif->type] ?? '#888';
+                    $nu = $typeUrl[$notif->type]
+                        ?? route('admin.notifications.index');
+                @endphp
+
+                <a
+                    href="{{ $nu }}"
+                    class="notif-item {{ $notif->read_at ? '' : 'unread' }}"
+                    data-notification-id="{{ $notif->id }}"
+                    onclick="markRead(
+                        event,
+                        {{ $notif->id }},
+                        @js($nu)
+                    )"
+                >
+                    <div
+                        class="notif-icon"
+                        style="background:{{ $nc }}22"
+                    >
+                        <i
+                            class="fa-solid {{ $ni }}"
+                            style="color:{{ $nc }}"
+                        ></i>
+                    </div>
+
+                    <div class="notif-text">
+                        <div class="notif-title">
+                            {{ $notif->title }}
+                        </div>
+
+                        <div class="notif-msg">
+                            {{ $notif->message }}
+                        </div>
+
+                        <div class="notif-time">
+                            {{ $notif->created_at?->diffForHumans() }}
+                        </div>
+                    </div>
+
+                    @if(!$notif->read_at)
+                        <div class="notif-dot"></div>
+                    @endif
+                </a>
+            @empty
+                <div class="notif-empty" id="notificationEmpty">
+                    <i
+                        class="fa-solid fa-bell-slash"
+                        style="font-size:1.5rem;margin-bottom:8px;display:block;opacity:.3"
+                    ></i>
+
+                    {{ __('admin.notif_empty') }}
+                </div>
+            @endforelse
+        </div>
+
+        <div
+            class="notif-panel-foot"
+            id="notificationPanelFooter"
+            style="{{ $adminUnreadCount > 0 ? '' : 'display:none' }}"
+        >
+            <form
+                method="POST"
+                action="{{ route('admin.notifications.read-all') }}"
+            >
+                @csrf
+
+                <button type="submit">
+                    <i class="fa-solid fa-check-double"></i>
+                    {{ __('admin.notif_mark_all_read') }}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="header-btn" id="notificationSoundButton"
+        title="كتم صوت الإشعارات" aria-label="تشغيل أو كتم صوت الإشعارات">
+    <i class="fa-solid fa-volume-high" id="notificationSoundIcon"></i>
+</button>
+
+{{-- User profile dropdown --}}
+@php
+    $headerUser = auth()->user();
+    $headerProfilePath = $headerUser->profile_image ?? $headerUser->avatar ?? $headerUser->image ?? null;
+
+    if ($headerProfilePath) {
+        $headerProfileImage = \Illuminate\Support\Str::startsWith($headerProfilePath, ['http://', 'https://'])
+            ? $headerProfilePath
+            : asset(\Illuminate\Support\Str::startsWith($headerProfilePath, ['storage/', '/storage/'])
+                ? ltrim($headerProfilePath, '/')
+                : 'storage/' . ltrim($headerProfilePath, '/'));
+    } else {
+        $headerProfileImage = asset('images/default-avatar.png');
+    }
+
+    $profileViewUrl = \Illuminate\Support\Facades\Route::has('admin.profile.show')
+        ? route('admin.profile.show') : '#';
+    $settingsEditUrl = \Illuminate\Support\Facades\Route::has('admin.settings.update')
+        ? route('admin.settings.update') : $profileViewUrl;
+@endphp
+
+<div class="dropdown" dir="rtl">
+    <div class="user-menu">
+        <div class="user-avatar">
+            <img src="{{ $headerProfileImage }}" alt="صورة {{ $headerUser->name }}"
+                 onerror="this.onerror=null;this.src='{{ asset('images/default-avatar.png') }}';">
+        </div>
+
+        <div class="user-info">
+            <div class="user-name">{{ $headerUser->name }}</div>
+            <div class="user-role">
+                {{ $headerUser->roles->first()?->display_name
+                    ?? $headerUser->roles->first()?->name
+                    ?? 'مستخدم' }}
             </div>
-            <div class="notif-text">
-              <div class="notif-title">{{ $notif->title }}</div>
-              <div class="notif-msg">{{ $notif->message }}</div>
-              <div class="notif-time">{{ $notif->created_at->diffForHumans() }}</div>
-            </div>
-            @if(!$notif->read_at)<div class="notif-dot"></div>@endif
-          </a>
-          @empty
-          <div class="notif-empty"><i class="fa-solid fa-bell-slash" style="font-size:1.5rem;margin-bottom:8px;display:block;opacity:.3"></i>{{ __('admin.notif_empty') }}</div>
-          @endforelse
         </div>
-        @if($adminUnreadCount > 0)
-        <div class="notif-panel-foot">
-          <form method="POST" action="{{ route('admin.notifications.read-all') }}">
-            @csrf
-            <button type="submit"><i class="fa-solid fa-check-double"></i> {{ __('admin.notif_mark_all_read') }}</button>
-          </form>
-        </div>
-        @endif
-      </div>
+
+        <i class="fa-solid fa-chevron-down" style="font-size:10px;color:#999"></i>
     </div>
 
-    <div class="dropdown">
-      <div class="user-menu">
-        @php
-          $authAvatar = auth()->user()->avatar ?? null;
-          $authAvatarUrl = $authAvatar
-            ? (str_starts_with($authAvatar,'http') ? $authAvatar : Storage::url($authAvatar))
-            : null;
-        @endphp
-        @if($authAvatarUrl)
-        <img src="{{ $authAvatarUrl }}" alt="avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gold,#c89a2b)">
-        @else
-        <div class="user-avatar">{{ mb_substr(auth()->user()->name ?? 'A', 0, 1) }}</div>
-        @endif
-        <div>
-          <div class="user-name">{{ auth()->user()->name ?? '' }}</div>
-          <div class="user-role">{{ auth()->user()?->roles?->first()?->name ?? __('admin.role_admin') }}</div>
-        </div>
-        <i class="fa-solid fa-chevron-down" style="font-size:10px;color:#999;margin:0 4px"></i>
-      </div>
-      <div class="dropdown-menu">
-        <a href="{{ route('admin.profile.show') }}" class="dropdown-item"><i class="fa-solid fa-user"></i> {{ __('admin.menu_profile') }}</a>
+    <div class="dropdown-menu" dir="rtl">
+        <a href="{{ $profileViewUrl }}" class="dropdown-item">
+            <i class="fa-solid fa-eye"></i>
+            <span>عرض الملف الشخصي</span>
+        </a>
+
+      <a href="{{ $settingsEditUrl }}" class="dropdown-item">
+    <i class="fa-solid fa-gear"></i>
+    <span>الإعدادات</span>
+</a>
+
         <div class="dropdown-divider"></div>
-        <a href="{{ route('home') }}" target="_blank" class="dropdown-item"><i class="fa-solid fa-globe"></i> {{ __('admin.menu_public_site') }}</a>
-        <div class="dropdown-divider"></div>
-        <form method="POST" action="{{ route('logout') }}" style="margin:0">
-          @csrf
-          <button type="submit" class="dropdown-item" style="width:100%;border:none;background:none;cursor:pointer;">
-            <i class="fa-solid fa-right-from-bracket"></i> {{ __('admin.menu_logout') }}
-          </button>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="dropdown-item"
+                    style="width:100%;border:0;background:none;cursor:pointer">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>تسجيل الخروج</span>
+            </button>
         </form>
-      </div>
     </div>
+</div>
   </div>
 </header>
 
@@ -500,26 +628,408 @@ function closeSidebar() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeNotif(); } });
 
-// Notification bell
+
 const notifBtn = document.getElementById('notifBtn');
-function toggleNotif(e) {
-  e.stopPropagation();
-  notifBtn.classList.toggle('open');
+const notifBadge = document.getElementById('notifBadge');
+const notificationList = document.getElementById('notificationList');
+const notificationPanelFooter = document.getElementById(
+    'notificationPanelFooter'
+);
+const soundButton = document.getElementById(
+    'notificationSoundButton'
+);
+const soundIcon = document.getElementById(
+    'notificationSoundIcon'
+);
+
+const csrfToken = document.querySelector(
+    'meta[name="csrf-token"]'
+)?.content;
+
+const notificationCheckUrl =
+    @json(route('admin.notifications.check-new'));
+
+const notificationReadUrlTemplate =
+    @json(route('admin.notifications.read', ['notification' => '__ID__']));
+
+const notificationIndexUrl =
+    @json(route('admin.notifications.index'));
+
+const notificationTypeConfig = {
+    article: {
+        icon: 'fa-newspaper',
+        color: '#c89a2b',
+        url: @json(route('admin.articles.index'))
+    },
+    contact: {
+        icon: 'fa-envelope',
+        color: '#3498db',
+        url: @json(route('admin.contact.index'))
+    },
+    user: {
+        icon: 'fa-user',
+        color: '#27ae60',
+        url: @json(route('admin.users.index'))
+    },
+    comment: {
+        icon: 'fa-comment',
+        color: '#e67e22',
+        url: @json(route('admin.comments.index'))
+    },
+    newsletter: {
+        icon: 'fa-bell',
+        color: '#9b59b6',
+        url: @json(route('admin.newsletter.index'))
+    }
+};
+
+let latestNotificationId = Number(
+    notifBtn?.dataset.latestId || 0
+);
+
+let notificationChecking = false;
+let audioContext = null;
+
+let notificationSoundEnabled =
+    localStorage.getItem('admin_notification_sound') !== 'muted';
+
+function toggleNotif(event) {
+    event.stopPropagation();
+    notifBtn?.classList.toggle('open');
 }
+
 function closeNotif() {
-  notifBtn && notifBtn.classList.remove('open');
+    notifBtn?.classList.remove('open');
 }
-document.addEventListener('click', e => {
-  if (notifBtn && !notifBtn.contains(e.target)) closeNotif();
+
+document.addEventListener('click', function (event) {
+    if (notifBtn && !notifBtn.contains(event.target)) {
+        closeNotif();
+    }
 });
-const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-function markRead(e, id, url) {
-  e.preventDefault();
-  fetch(`/admin/notifications/${id}/read`, {
-    method: 'POST',
-    headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json', 'Content-Type': 'application/json' }
-  }).finally(() => { window.location.href = url; });
+
+function escapeHtml(value) {
+    const element = document.createElement('div');
+    element.textContent = value ?? '';
+    return element.innerHTML;
 }
+
+function updateSoundIcon() {
+    if (!soundIcon) {
+        return;
+    }
+
+    soundIcon.className = notificationSoundEnabled
+        ? 'fa-solid fa-volume-high'
+        : 'fa-solid fa-volume-xmark';
+
+    if (soundButton) {
+        soundButton.title = notificationSoundEnabled
+            ? 'كتم صوت الإشعارات'
+            : 'تشغيل صوت الإشعارات';
+    }
+}
+
+async function unlockNotificationAudio() {
+    if (!notificationSoundEnabled) {
+        return;
+    }
+
+    const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) {
+        return;
+    }
+
+    if (!audioContext) {
+        audioContext = new AudioContextClass();
+    }
+
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+    }
+}
+
+async function playNotificationSound() {
+    if (!notificationSoundEnabled) {
+        return;
+    }
+
+    await unlockNotificationAudio();
+
+    if (!audioContext || audioContext.state !== 'running') {
+        return;
+    }
+
+    const now = audioContext.currentTime;
+    const gain = audioContext.createGain();
+    const firstTone = audioContext.createOscillator();
+    const secondTone = audioContext.createOscillator();
+
+    firstTone.type = 'sine';
+    secondTone.type = 'sine';
+
+    firstTone.frequency.setValueAtTime(660, now);
+    secondTone.frequency.setValueAtTime(880, now + 0.14);
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.25, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.55
+    );
+
+    firstTone.connect(gain);
+    secondTone.connect(gain);
+    gain.connect(audioContext.destination);
+
+    firstTone.start(now);
+    firstTone.stop(now + 0.18);
+
+    secondTone.start(now + 0.14);
+    secondTone.stop(now + 0.5);
+}
+
+soundButton?.addEventListener('click', async function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    notificationSoundEnabled = !notificationSoundEnabled;
+
+    localStorage.setItem(
+        'admin_notification_sound',
+        notificationSoundEnabled ? 'enabled' : 'muted'
+    );
+
+    updateSoundIcon();
+
+    if (notificationSoundEnabled) {
+        await playNotificationSound();
+    }
+});
+
+document.addEventListener(
+    'click',
+    unlockNotificationAudio,
+    { once: true }
+);
+
+document.addEventListener(
+    'keydown',
+    unlockNotificationAudio,
+    { once: true }
+);
+
+function updateNotificationBadge(count) {
+    const unreadCount = Number(count || 0);
+
+    if (notifBadge) {
+        notifBadge.textContent =
+            unreadCount > 99 ? '99+' : String(unreadCount);
+
+        notifBadge.style.display =
+            unreadCount > 0 ? 'flex' : 'none';
+    }
+
+    if (notificationPanelFooter) {
+        notificationPanelFooter.style.display =
+            unreadCount > 0 ? 'block' : 'none';
+    }
+}
+
+function createNotificationElement(notification) {
+    const config = notificationTypeConfig[notification.type] || {
+        icon: 'fa-circle-info',
+        color: '#888888',
+        url: notificationIndexUrl
+    };
+
+    const item = document.createElement('a');
+
+    item.href = config.url;
+    item.className = 'notif-item unread';
+    item.dataset.notificationId = notification.id;
+
+    item.innerHTML = `
+        <div
+            class="notif-icon"
+            style="background:${config.color}22"
+        >
+            <i
+                class="fa-solid ${config.icon}"
+                style="color:${config.color}"
+            ></i>
+        </div>
+
+        <div class="notif-text">
+            <div class="notif-title">
+                ${escapeHtml(notification.title)}
+            </div>
+
+            <div class="notif-msg">
+                ${escapeHtml(notification.message)}
+            </div>
+
+            <div class="notif-time">
+                ${escapeHtml(notification.created_at)}
+            </div>
+        </div>
+
+        <div class="notif-dot"></div>
+    `;
+
+    item.addEventListener('click', function (event) {
+        markRead(event, notification.id, config.url);
+    });
+
+    return item;
+}
+
+function addNotificationsToList(notifications) {
+    if (!notificationList) {
+        return;
+    }
+
+    notificationList.querySelector('.notif-empty')?.remove();
+
+    /*
+     * الخادم يعيد الأحدث أولًا، لذلك نعكسها قبل الإضافة
+     * حتى تبقى أحدث رسالة في أعلى القائمة.
+     */
+    [...notifications].reverse().forEach(function (notification) {
+        const exists = notificationList.querySelector(
+            `[data-notification-id="${notification.id}"]`
+        );
+
+        if (!exists) {
+            notificationList.prepend(
+                createNotificationElement(notification)
+            );
+        }
+    });
+
+    const items = notificationList.querySelectorAll('.notif-item');
+
+    items.forEach(function (item, index) {
+        if (index >= 10) {
+            item.remove();
+        }
+    });
+}
+
+async function markRead(event, id, url) {
+    event.preventDefault();
+
+    const readUrl = notificationReadUrlTemplate.replace(
+        '__ID__',
+        String(id)
+    );
+
+    try {
+        await fetch(readUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        });
+    } finally {
+        window.location.href = url;
+    }
+}
+
+async function checkNewNotifications() {
+    if (notificationChecking || document.hidden) {
+        return;
+    }
+
+    notificationChecking = true;
+
+    try {
+        const url = new URL(
+            notificationCheckUrl,
+            window.location.origin
+        );
+
+        url.searchParams.set(
+            'after_id',
+            String(latestNotificationId)
+        );
+
+        const response = await fetch(url.toString(), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin',
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            console.error(
+                'Notification request failed:',
+                response.status
+            );
+
+            return;
+        }
+
+        const data = await response.json();
+
+        updateNotificationBadge(data.unread_count);
+
+        const notifications = Array.isArray(data.notifications)
+            ? data.notifications
+            : [];
+
+        if (notifications.length > 0) {
+            addNotificationsToList(notifications);
+
+            latestNotificationId = Math.max(
+                latestNotificationId,
+                Number(data.latest_id || 0)
+            );
+
+            if (notifBtn) {
+                notifBtn.dataset.latestId =
+                    String(latestNotificationId);
+            }
+
+            /*
+             * صوت واحد للدُفعة الجديدة حتى لو وصلت
+             * عدة إشعارات في اللحظة نفسها.
+             */
+            await playNotificationSound();
+        }
+    } catch (error) {
+        console.error(
+            'Notification check failed:',
+            error
+        );
+    } finally {
+        notificationChecking = false;
+    }
+}
+
+document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) {
+        checkNewNotifications();
+    }
+});
+
+updateSoundIcon();
+
+/*
+ * فحص مباشر عند تحميل الصفحة، ثم كل 5 ثوانٍ.
+ */
+checkNewNotifications();
+window.setInterval(checkNewNotifications, 5000);
+
+
 </script>
 @stack('scripts')
 </body>

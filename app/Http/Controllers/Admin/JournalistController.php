@@ -23,26 +23,63 @@ class JournalistController extends Controller
         return view('admin.journalists.create');
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'name'      => 'required|string|max:255',
-            'email'     => 'nullable|email',
-            'phone'     => 'nullable|string',
-            'photo'     => 'nullable|string',
-            'job_title' => 'nullable|string',
-            'bio'       => 'nullable|string',
-            'facebook'  => 'nullable|string',
-            'instagram' => 'nullable|string',
-            'youtube'   => 'nullable|string',
-            'x_twitter' => 'nullable|string',
-            'status'    => 'boolean',
-        ]);
-        $data['status'] = $request->boolean('status', true);
-        Journalist::create($data);
-        ActivityLog::log('create','journalists',"Created journalist: {$data['name']}");
-        return redirect()->route('admin.journalists.index')->with('success','تم إضافة الصحفي بنجاح.');
+  public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['nullable', 'email', 'max:255'],
+        'phone' => ['nullable', 'string', 'max:50'],
+        'job_title' => ['nullable', 'string', 'max:255'],
+        'bio' => ['nullable', 'string'],
+
+        'photo_file' => [
+            'nullable',
+            'image',
+            'mimes:jpg,jpeg,png,webp,gif',
+            'max:5120',
+        ],
+
+        'photo_url' => [
+            'nullable',
+            'url',
+            'max:2048',
+        ],
+
+        'facebook' => ['nullable', 'url', 'max:2048'],
+        'instagram' => ['nullable', 'url', 'max:2048'],
+        'youtube' => ['nullable', 'url', 'max:2048'],
+        'x_twitter' => ['nullable', 'url', 'max:2048'],
+        'status' => ['nullable', 'boolean'],
+    ]);
+
+    $photo = $validated['photo_url'] ?? null;
+
+    if ($request->hasFile('photo_file')) {
+        $photo = $request
+            ->file('photo_file')
+            ->store('journalists', 'public');
     }
+
+    Journalist::create([
+        'user_id' => auth()->id(),
+        'name' => $validated['name'],
+        'email' => $validated['email'] ?? null,
+        'phone' => $validated['phone'] ?? null,
+        'photo' => $photo,
+        'job_title' => $validated['job_title'] ?? null,
+        'bio' => $validated['bio'] ?? null,
+        'facebook' => $validated['facebook'] ?? null,
+        'instagram' => $validated['instagram'] ?? null,
+        'youtube' => $validated['youtube'] ?? null,
+        'x_twitter' => $validated['x_twitter'] ?? null,
+        'status' => $request->boolean('status'),
+    ]);
+
+    return redirect()
+        ->route('admin.journalists.index')
+        ->with('success', 'تمت إضافة الصحفي بنجاح.');
+}
+
 
     public function show(Journalist $journalist)
     {

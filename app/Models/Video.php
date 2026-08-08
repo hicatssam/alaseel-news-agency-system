@@ -17,6 +17,8 @@ class Video extends Model
         'views','published_at'
     ];
 
+   
+
     protected $casts = [
         'is_featured'  => 'boolean',
         'published_at' => 'datetime',

@@ -100,7 +100,10 @@ body{font-family:'Inter',sans-serif;color:var(--white);min-height:100vh;display:
   <div class="left-panel">
     <div class="brand-wrap">
       <div class="brand-logo">
-        <img src="{{ asset('images/logo.png') }}" alt="Al-Aseel" style="height:110px;width:auto;display:block;object-fit:contain">
+       @include('partials.site-logo', [
+    'class' => 'site-logo',
+    'style' => 'max-width:180px;max-height:70px;object-fit:contain'
+])
       </div>
     </div>
     <h1 class="panel-heading">{{ __('auth.admin_panel') }}</h1>
@@ -112,7 +115,10 @@ body{font-family:'Inter',sans-serif;color:var(--white);min-height:100vh;display:
   <!-- Right panel -->
   <div class="right-panel">
     <div class="mobile-logo">
-      <img src="{{ asset('images/logo.png') }}" alt="Al-Aseel" style="height:100px;width:auto;object-fit:contain">
+      @include('partials.site-logo', [
+    'class' => 'site-logo',
+    'style' => 'max-width:180px;max-height:70px;object-fit:contain'
+])
     </div>
     <div class="login-card">
       <div class="card-title">{{ __('auth.sign_in') }}</div>

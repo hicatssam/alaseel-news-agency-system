@@ -101,7 +101,7 @@ return [
     'address_value'        => 'الرياض، المملكة العربية السعودية',
     'email_label'          => 'البريد الإلكتروني',
     'phone_label'          => 'رقم الهاتف',
-    'phone_value'          => '+966 11 000 0000',
+    'phone_value'          => '+972 59-504-7472',
     'field_name'           => 'الاسم *',
     'field_email'          => 'البريد الإلكتروني *',
     'field_phone'          => 'رقم الهاتف',

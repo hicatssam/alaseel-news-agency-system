@@ -1,7 +1,5 @@
 @extends('layouts.admin')
 @section('title', __('admin.label_article_details'))
-@section('breadcrumb') <a href="{{ route('admin.articles.index') }}">{{ __('admin.nav_articles') }}</a> <span class="sep">›</span> {{ __('admin.label_article_details') }} @endsection
-@section('content')
 
 <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start">
   <div>
@@ -16,9 +14,31 @@
         @if($article->summary)
         <p style="color:#555;font-size:14px;line-height:1.7;margin-bottom:16px;padding:12px;background:#f8f9fa;border-radius:8px;border-right:3px solid #c9a84c">{{ $article->summary }}</p>
         @endif
-        @if($article->main_image)
-        <img src="{{ $article->main_image }}" alt="{{ $article->title }}" style="width:100%;border-radius:10px;margin-bottom:16px;max-height:350px;object-fit:cover" onerror="this.style.display='none'">
+        
+
+   @if ($article->main_image_url)
+    <figure style="margin:20px 0">
+        <img
+            src="{{ $article->main_image_url }}"
+            alt="{{ $article->mainImageMedia?->alt_text ?: $article->title }}"
+            style="
+                display:block;
+                width:100%;
+                max-height:600px;
+                object-fit:cover;
+                border-radius:12px;
+            "
+        >
+
+        @if ($article->mainImageMedia?->caption)
+            <figcaption style="margin-top:8px;color:#777;font-size:13px">
+                {{ $article->mainImageMedia->caption }}
+            </figcaption>
         @endif
+    </figure>
+@endif
+@endif
+
         <div style="font-size:14px;line-height:1.9;color:#333">{!! $article->content !!}</div>
       </div>
     </div>

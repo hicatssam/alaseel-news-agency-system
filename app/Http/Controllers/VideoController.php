@@ -2,27 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Video;
 use App\Models\Category;
+use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class VideoController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * عرض صفحة جميع الفيديوهات المنشورة.
+     */
+    public function index(Request $request): View
     {
-        $query    = Video::published()->with('category')->latest('published_at');
-        if ($request->filled('category_id')) $query->where('category_id',$request->category_id);
-        $videos     = $query->paginate(12)->withQueryString();
-        $categories = Category::active()->get();
-        $featured   = Video::published()->featured()->latest()->limit(3)->get();
-        return view('videos.index', compact('videos','categories','featured'));
+        $validated = $request->validate([
+            'category_id' => [
+                'nullable',
+                'integer',
+                'exists:categories,id',
+            ],
+        ]);
+
+        $videos = Video::query()
+            ->published()
+            ->with('category')
+            ->when(
+                $validated['category_id'] ?? null,
+                fn ($query, $categoryId) =>
+                    $query->where('category_id', $categoryId)
+            )
+            ->latest('published_at')
+            ->paginate(12)
+            ->withQueryString();
+
+        $categories = Category::query()
+            ->active()
+            ->orderBy('name')
+            ->get();
+
+        $featured = Video::query()
+            ->published()
+            ->featured()
+            ->with('category')
+            ->latest('published_at')
+            ->limit(3)
+            ->get();
+
+        return view('videos.index', compact(
+            'videos',
+            'categories',
+            'featured'
+        ));
     }
 
-    public function show(string $slug)
+    /**
+     * عرض تفاصيل فيديو واحد.
+     */
+    public function show(string $slug): View
     {
-        $video   = Video::published()->where('slug',$slug)->with('category')->firstOrFail();
+        $video = Video::query()
+            ->published()
+            ->with('category')
+            ->where('slug', $slug)
+            ->firstOrFail();
+
         $video->increment('views');
-        $related = Video::published()->where('id','!=',$video->id)->with('category')->latest()->limit(6)->get();
-        return view('videos.show', compact('video','related'));
+
+        $related = Video::query()
+            ->published()
+            ->with('category')
+            ->whereKeyNot($video->getKey())
+            ->when(
+                $video->category_id,
+                fn ($query, $categoryId) =>
+                    $query->where('category_id', $categoryId)
+            )
+            ->latest('published_at')
+            ->limit(6)
+            ->get();
+
+        return view('videos.show', compact(
+            'video',
+            'related'
+        ));
     }
 }

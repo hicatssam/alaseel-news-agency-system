@@ -7,12 +7,14 @@ use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
     public function show()
     {
         $user = auth()->user();
+
         return view('admin.profile.show', compact('user'));
     }
 
@@ -20,36 +22,134 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
-        $data = $request->validate([
-            'name'                  => 'required|string|max:255',
-            'email'                 => 'required|email|unique:users,email,' . $user->id,
-            'phone'                 => 'nullable|string|max:30',
-            'password'              => 'nullable|min:8|confirmed',
-            'avatar_file'           => 'nullable|image|max:4096',
-            'avatar_url'            => 'nullable|url|max:500',
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+
+            'phone' => [
+                'nullable',
+                'string',
+                'max:30',
+            ],
+
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+            ],
+
+            'photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:4096',
+            ],
+
+            'photo_url' => [
+                'nullable',
+                'url',
+                'max:500',
+            ],
+
+            'remove_photo' => [
+                'nullable',
+                'boolean',
+            ],
         ]);
 
-        // Avatar: uploaded file takes priority over URL
-        if ($request->hasFile('avatar_file')) {
-            // Remove old file if it was a stored upload
-            if ($user->avatar && !str_starts_with($user->avatar, 'http')) {
-                Storage::disk('public')->delete($user->avatar);
-            }
-            $data['avatar'] = $request->file('avatar_file')->store('avatars', 'public');
-        } elseif ($request->filled('avatar_url')) {
-            $data['avatar'] = $request->avatar_url;
-        }
-        unset($data['avatar_file'], $data['avatar_url']);
+        /*
+        |--------------------------------------------------------------------------
+        | حذف الصورة الحالية
+        |--------------------------------------------------------------------------
+        */
 
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
+        if ($request->boolean('remove_photo')) {
+            $this->deleteLocalPhoto($user->photo);
+            $validated['photo'] = null;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | رفع صورة جديدة
+        |--------------------------------------------------------------------------
+        | الصورة المرفوعة لها الأولوية على رابط الصورة.
+        */
+
+        if ($request->hasFile('photo')) {
+            $this->deleteLocalPhoto($user->photo);
+
+            $validated['photo'] = $request
+                ->file('photo')
+                ->store('users', 'public');
+        } elseif ($request->filled('photo_url')) {
+            $this->deleteLocalPhoto($user->photo);
+
+            $validated['photo'] = $request->input('photo_url');
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | تحديث كلمة المرور
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make(
+                $validated['password']
+            );
         } else {
-            unset($data['password']);
+            unset($validated['password']);
         }
 
-        $user->update($data);
-        ActivityLog::log('update', 'profile', 'Updated own profile');
+        unset(
+            $validated['photo_url'],
+            $validated['remove_photo']
+        );
 
-        return back()->with('success', __('admin.profile_updated'));
+        $user->update($validated);
+
+        ActivityLog::log(
+            'update',
+            'profile',
+            "Updated own profile: {$user->email}"
+        );
+
+        return back()->with(
+            'success',
+            __('admin.profile_updated')
+        );
+    }
+
+    private function deleteLocalPhoto(?string $photo): void
+    {
+        if (
+            empty($photo) ||
+            str_starts_with($photo, 'http://') ||
+            str_starts_with($photo, 'https://') ||
+            str_starts_with($photo, '//')
+        ) {
+            return;
+        }
+
+        $photoPath = ltrim($photo, '/');
+        $photoPath = preg_replace('#^storage/#', '', $photoPath);
+
+        if (
+            $photoPath &&
+            Storage::disk('public')->exists($photoPath)
+        ) {
+            Storage::disk('public')->delete($photoPath);
+        }
     }
 }

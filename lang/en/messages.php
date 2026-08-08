@@ -101,7 +101,7 @@ return [
     'address_value'        => 'Riyadh, Saudi Arabia',
     'email_label'          => 'Email',
     'phone_label'          => 'Phone Number',
-    'phone_value'          => '+966 11 000 0000',
+    'phone_value'          => '+972 59-504-7472',
     'field_name'           => 'Name *',
     'field_email'          => 'Email *',
     'field_phone'          => 'Phone',

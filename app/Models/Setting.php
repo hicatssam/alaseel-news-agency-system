@@ -8,18 +8,32 @@ class Setting extends Model
 {
     protected $fillable = ['key', 'value', 'type', 'group'];
 
-    public static function get(string $key, $default = null)
+    public static function get(string $key, mixed $default = null): mixed
     {
-        $setting = static::where('key', $key)->first();
-        return $setting ? $setting->value : $default;
+        $setting = static::query()->where('key', $key)->first();
+
+        return $setting?->value ?? $default;
     }
 
-    public static function set(string $key, $value, string $type = 'text', string $group = null): void
-    {
-        static::updateOrCreate(['key' => $key], [
-            'value' => $value,
-            'type'  => $type,
-            'group' => $group,
-        ]);
+    public static function set(
+        string $key,
+        mixed $value,
+        ?string $type = null,
+        ?string $group = null
+    ): void {
+        $setting = static::query()->firstOrNew(['key' => $key]);
+        $setting->value = $value;
+
+        if ($type !== null) {
+            $setting->type = $type;
+        } elseif (! $setting->exists && blank($setting->type)) {
+            $setting->type = 'text';
+        }
+
+        if ($group !== null) {
+            $setting->group = $group;
+        }
+
+        $setting->save();
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use Illuminate\Support\Str;
 
 class Article extends Model
@@ -16,7 +17,7 @@ class Article extends Model
     protected $fillable = [
         'category_id','journalist_id','user_id','title','slug','summary','content',
         'main_image','status','is_breaking','is_featured','is_editor_pick',
-        'verification_status','verified_by','verified_at','verification_notes',
+        'verification_status','verified_by','verified_at','verification_notes','main_image_media_id',
         'views','published_at','scheduled_at','seo_title','seo_description','meta_keywords'
     ];
 
@@ -43,6 +44,10 @@ class Article extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function articleViews(): HasMany
+{
+    return $this->hasMany(ArticleView::class);
+}
 
     public function journalist(): BelongsTo
     {
@@ -53,6 +58,14 @@ class Article extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function mainImageMedia(): BelongsTo
+{
+    return $this->belongsTo(
+        MediaFile::class,
+        'main_image_media_id'
+    );
+}
 
     public function verifier(): BelongsTo
     {
@@ -114,4 +127,32 @@ class Article extends Model
         $words = str_word_count(strip_tags($this->content));
         return (int) ceil($words / 200);
     }
+
+public function getMainImageUrlAttribute(): ?string
+{
+    if ($this->mainImageMedia?->file_path) {
+        return asset(
+            'storage/' . ltrim(
+                $this->mainImageMedia->file_path,
+                '/'
+            )
+        );
+    }
+
+    if (blank($this->main_image)) {
+        return null;
+    }
+
+    if (filter_var($this->main_image, FILTER_VALIDATE_URL)) {
+        return $this->main_image;
+    }
+
+    $path = ltrim($this->main_image, '/');
+
+    if (str_starts_with($path, 'storage/')) {
+        return asset($path);
+    }
+
+    return asset('storage/' . $path);
+}
 }
