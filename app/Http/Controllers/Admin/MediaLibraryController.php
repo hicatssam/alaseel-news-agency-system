@@ -276,4 +276,19 @@ class MediaLibraryController extends Controller
             ),
         ];
     }
+
+
+
+    public function editorUpload(Request $request)
+{
+    $request->validate([
+        'upload' => 'required|image|max:5120', // 5MB
+    ]);
+
+    $path = $request->file('upload')->store('articles', 'public');
+
+    return response()->json([
+        'url' => Storage::url($path),
+    ]);
+}
 }

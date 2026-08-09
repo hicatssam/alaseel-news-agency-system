@@ -78,7 +78,7 @@
                             name="title"
                             class="form-control @error('title') is-invalid @enderror"
                             value="{{ old('title', $article->title) }}"
-                            required
+                           
                             maxlength="500"
                             style="font-size:16px;font-weight:700"
                         >
@@ -114,7 +114,7 @@
                             name="content"
                             class="form-control @error('content') is-invalid @enderror"
                             rows="18"
-                            required
+                           
                         >{{ old('content', $article->content) }}</textarea>
 
                         @error('content')
@@ -224,7 +224,7 @@
                             name="status"
                             id="article-status"
                             class="form-control @error('status') is-invalid @enderror"
-                            required
+                            
                         >
                             @foreach ([
                                 'draft' => __('admin.status_draft'),

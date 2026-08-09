@@ -744,6 +744,24 @@ public function show(Request $request, string $slug)
 
     /*
     |--------------------------------------------------------------------------
+    | Upload Content Image (CKEditor)
+    |--------------------------------------------------------------------------
+    |
+    | Handles images inserted directly inside the article content by the
+    | CKEditor 5 toolbar (SimpleUploadAdapter). Stored separately from the
+    | main article image / media-library uploads, under:
+    |
+    |     storage/app/public/articles/content
+    |
+    | The original filename is never trusted — a random, safe filename is
+    | always generated server-side using only a whitelisted extension.
+    |
+    */
+
+   
+
+    /*
+    |--------------------------------------------------------------------------
     | Private Helpers
     |--------------------------------------------------------------------------
     */
@@ -876,5 +894,103 @@ public function show(Request $request, string $slug)
     }
 
     return Storage::disk('public')->url($path);
+}
+
+
+public function uploadContentImage(Request $request)
+{
+    /*
+     * CKEditor 5 SimpleUploadAdapter uses "upload".
+     * Keep "image" as a fallback for older clients.
+     */
+    $uploadField = $request->hasFile('upload')
+        ? 'upload'
+        : ($request->hasFile('image') ? 'image' : 'upload');
+
+    $messages = [
+        "{$uploadField}.required" => 'يجب اختيار صورة لرفعها.',
+        "{$uploadField}.image" => 'الملف المرفوع يجب أن يكون صورة صالحة.',
+        "{$uploadField}.mimes" =>
+            'صيغ الصور المسموح بها هي: jpg, jpeg, png, webp, gif فقط.',
+        "{$uploadField}.max" =>
+            'الحد الأقصى لحجم الصورة هو 5 ميجابايت.',
+    ];
+
+    try {
+        $request->validate([
+            $uploadField => [
+                'required',
+                'image',
+                'mimes:jpg,jpeg,png,webp,gif',
+                'max:5120',
+            ],
+        ], $messages);
+    } catch (\Illuminate\Validation\ValidationException $exception) {
+        $firstError = collect($exception->errors())
+            ->flatten()
+            ->first();
+
+        return response()->json([
+            'error' => [
+                'message' => $firstError
+                    ?: 'تعذر رفع الصورة، يرجى المحاولة مرة أخرى.',
+            ],
+        ], 422);
+    }
+
+    try {
+        $file = $request->file($uploadField);
+
+        $allowedExtensions = [
+            'jpg',
+            'jpeg',
+            'png',
+            'webp',
+            'gif',
+        ];
+
+        $extension = strtolower(
+            (string) $file->getClientOriginalExtension()
+        );
+
+        if (! in_array($extension, $allowedExtensions, true)) {
+            $guessedExtension = strtolower(
+                (string) $file->guessExtension()
+            );
+
+            $extension = in_array(
+                $guessedExtension,
+                $allowedExtensions,
+                true
+            ) ? $guessedExtension : 'jpg';
+        }
+
+        $filename = Str::random(40) . '.' . $extension;
+
+        $path = $file->storeAs(
+            'articles/content',
+            $filename,
+            'public'
+        );
+
+        if (! $path) {
+            throw new \RuntimeException(
+                'Failed to store uploaded content image.'
+            );
+        }
+
+        return response()->json([
+            'url' => Storage::disk('public')->url($path),
+        ]);
+    } catch (\Throwable $exception) {
+        report($exception);
+
+        return response()->json([
+            'error' => [
+                'message' =>
+                    'حدث خطأ أثناء رفع الصورة، يرجى المحاولة مرة أخرى.',
+            ],
+        ], 500);
+    }
 }
 }

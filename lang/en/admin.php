@@ -31,6 +31,9 @@ return [
     'menu_public_site'     => 'Public Site',
     'menu_logout'          => 'Logout',
     'breadcrumb_home'      => 'Home',
+    
+    'nav_about_us' => 'About Us',
+'nav_team_members' => 'Team Members',
 
     // Dashboard
     'dashboard_title'      => 'Dashboard',
@@ -40,6 +43,7 @@ return [
     'stat_pending'         => 'Pending Review',
     'recent_articles'      => 'Recent Articles',
     'chart_title'          => 'Articles by Status',
+
 
     // Common actions
     'btn_add'              => 'Add',

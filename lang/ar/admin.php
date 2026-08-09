@@ -32,6 +32,10 @@ return [
     'menu_logout'          => 'تسجيل الخروج',
     'breadcrumb_home'      => 'الرئيسية',
 
+    'nav_about_us' => 'من نحن',
+'nav_team_members' => 'أعضاء الفريق',
+'nav_about' => 'من نحن',
+
     // Dashboard
     'dashboard_title'      => 'لوحة التحكم',
     'stat_articles'        => 'مقال منشور',

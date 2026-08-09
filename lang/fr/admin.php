@@ -25,6 +25,9 @@ return [
     'nav_settings'         => 'Paramètres',
     'nav_live_stream'      => 'Direct',
 
+    'nav_about_us' => 'À propos',
+'nav_team_members' => 'Membres de l’équipe',
+
     // Header
     'btn_new_article'      => 'Nouvel article',
     'menu_profile'         => 'Profil',

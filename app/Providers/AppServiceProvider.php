@@ -123,11 +123,7 @@ class AppServiceProvider extends ServiceProvider
             ));
         });
 
-        /*
-        |--------------------------------------------------------------------------
-        | بيانات لوحة الإدارة
-        |--------------------------------------------------------------------------
-        */
+      
 
         View::composer('layouts.admin', function ($view) {
             $adminUnreadCount = Notification::query()
@@ -137,6 +133,7 @@ class AppServiceProvider extends ServiceProvider
             $adminRecentNotifications = Notification::query()
                 ->latest()
                 ->limit(8)
+                
                 ->get();
 
             $view->with(compact(

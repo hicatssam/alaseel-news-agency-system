@@ -21,7 +21,7 @@ $isJournalist = auth()->user()->hasRole('journalist');
 *{box-sizing:border-box;margin:0;padding:0}
 html[dir="rtl"] body{font-family:'Cairo',sans-serif}
 html[dir="ltr"] body{font-family:'Inter',sans-serif}
-body{background:#f0f2f5;color:#1a1a2e}
+body{background:#f0f2f5;color:#1a1a2e;overflow-x:hidden}
 :root{--gold:#c9a84c;--gold-dark:#a67c00;--dark:#1a1a2e;--sidebar-w:260px;--header-h:64px}
 
 /* Sidebar */
@@ -68,7 +68,7 @@ html[dir="ltr"] .header{left:var(--sidebar-w);right:0}
 .admin-lang a.active{background:var(--gold);color:var(--dark)}
 
 /* Main */
-.main{margin-top:var(--header-h);min-height:calc(100vh - var(--header-h));padding:24px}
+.main{margin-top:var(--header-h);min-height:calc(100vh - var(--header-h));padding:24px;max-width:100%;overflow-x:hidden}
 html[dir="rtl"] .main{margin-right:var(--sidebar-w)}
 html[dir="ltr"] .main{margin-left:var(--sidebar-w)}
 
@@ -222,23 +222,74 @@ html[dir="ltr"] .notif-panel{right:0}
 html[dir="rtl"] .sidebar-close{left:10px}
 html[dir="ltr"] .sidebar-close{right:10px}
 .sidebar-close:hover{color:#fff}
-@media(max-width:768px){
-html[dir="rtl"] .sidebar{transform:translateX(100%)}
-html[dir="ltr"] .sidebar{transform:translateX(-100%)}
-.sidebar.open{transform:translateX(0)!important}
-html[dir="rtl"] .main{margin-right:0}
-html[dir="ltr"] .main{margin-left:0}
-html[dir="rtl"] .header{right:0}
-html[dir="ltr"] .header{left:0}
-.stats-grid{grid-template-columns:1fr 1fr}
-.form-row,.form-row-3{grid-template-columns:1fr}
-.hamburger-btn{display:flex}
-.sidebar-close{display:block}
-.header-actions .btn-primary .btn-label{display:none}
+/* Responsive admin layout */
+@media(max-width:1200px){
+  :root{--sidebar-w:230px}
+  .main{padding:20px}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .form-row-3{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:480px){
-.stats-grid{grid-template-columns:1fr}
-.header-actions{gap:6px}
+@media(max-width:992px){
+  :root{--header-h:60px}
+  html[dir="rtl"] .sidebar{right:0;transform:translateX(105%)}
+  html[dir="ltr"] .sidebar{left:0;transform:translateX(-105%)}
+  .sidebar{width:min(300px,86vw);box-shadow:0 0 30px rgba(0,0,0,.3);z-index:301}
+  .sidebar.open{transform:translateX(0)!important}
+  html[dir="rtl"] .main{margin-right:0}
+  html[dir="ltr"] .main{margin-left:0}
+  html[dir="rtl"] .header{right:0}
+  html[dir="ltr"] .header{left:0}
+  .hamburger-btn,.sidebar-close{display:flex}
+  .sidebar-overlay{z-index:300}
+  .header{padding-inline:18px}
+  .main{padding:18px}
+}
+@media(max-width:768px){
+  .header{padding-inline:12px}
+  .header-left{gap:10px;min-width:0}
+  .header-left>div{min-width:0}
+  .page-title{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+  .breadcrumb{display:none}
+  .header-actions{gap:7px}
+  .header-actions>.btn-primary .btn-label,.user-info,.user-menu>i{display:none}
+  .user-menu{padding:3px;border:0;background:transparent}
+  .header-btn,.hamburger-btn{width:34px;height:34px;min-width:34px}
+  .admin-lang a{padding:3px 7px;font-size:10px}
+  .main{padding:14px}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}
+  .stat-card{padding:15px;gap:12px;min-width:0}
+  .stat-icon{width:42px;height:42px;min-width:42px}
+  .stat-value{font-size:21px}
+  .form-row,.form-row-3{grid-template-columns:1fr;gap:0}
+  .card-header{padding:14px 16px;gap:10px;flex-wrap:wrap}
+  .card-body{padding:16px}
+  .filter-bar{align-items:stretch;padding:14px}
+  .filter-bar .form-control{min-width:0;flex-basis:100%}
+  .table-wrap{width:100%;-webkit-overflow-scrolling:touch}
+  .table-wrap table{min-width:680px}
+  .notif-panel{position:fixed;top:calc(var(--header-h) + 6px);left:12px!important;right:12px!important;width:auto;max-height:calc(100dvh - var(--header-h) - 18px)}
+  .notif-list{max-height:calc(100dvh - var(--header-h) - 130px)}
+  .dropdown-menu{position:fixed;top:calc(var(--header-h) + 6px);left:12px!important;right:12px!important;width:auto}
+}
+@media(max-width:560px){
+  .header-actions>.btn-primary,.header-actions>a[target="_blank"]{display:none}
+  .page-title{max-width:38vw}
+  .stats-grid{grid-template-columns:1fr}
+  .stat-card{padding:14px 16px}
+  .btn{max-width:100%}
+  .empty-state{padding:40px 14px}
+}
+@media(max-width:390px){
+  .header{padding-inline:8px}
+  .header-actions{gap:4px}
+  .admin-lang a{padding:3px 5px}
+  .page-title{max-width:30vw;font-size:14px}
+  .main{padding:10px}
+  .card-body{padding:13px}
+  .notif-panel,.dropdown-menu{left:8px!important;right:8px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
 }
 </style>
 @stack('styles')
@@ -292,6 +343,16 @@ html[dir="ltr"] .header{left:0}
     </a>
     @endif
 
+    @if($isSuperAdmin || $isEditor)
+ <a
+    href="{{ route('admin.about.edit') }}"
+    class="nav-item {{ request()->routeIs('admin.about.*') ? 'active' : '' }}"
+>
+    <i class="fa-solid fa-circle-info"></i>
+    {{ __('admin.nav_about_us') }}
+</a>
+    @endif
+   
     {{-- Videos: all roles --}}
     <a href="{{ route('admin.videos.index') }}" class="nav-item {{ request()->routeIs('admin.videos.*') ? 'active' : '' }}">
       <i class="fa-solid fa-video"></i> {{ __('admin.nav_videos') }}

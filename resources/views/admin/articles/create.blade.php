@@ -75,7 +75,7 @@
                             name="title"
                             class="form-control @error('title') is-invalid @enderror"
                             value="{{ old('title') }}"
-                            required
+                            
                             maxlength="500"
                             style="font-size:16px;font-weight:700"
                         >
@@ -105,18 +105,42 @@
                         @enderror
                     </div>
 
-                    <div class="form-group" style="margin-bottom:0">
-                        <label class="form-label">
-                            {{ __('admin.label_full_content') }}
+                    <div class="form-group" id="content-editor-container" style="margin-bottom:0">
+                        <label class="form-label" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+                            <span>
+                                {{ __('admin.label_full_content') }}
+                                <span style="color:#e74c3c">*</span>
+                            </span>
 
-                            <span style="color:#e74c3c">*</span>
+                            <span style="display:flex;gap:8px;flex-wrap:wrap">
+                                <button
+                                    type="button"
+                                    id="insert-inline-image"
+                                    class="btn btn-outline"
+                                    style="padding:4px 10px;font-size:12px"
+                                >
+                                    <i class="fa-solid fa-image"></i>
+                                    إدراج صورة من المكتبة داخل النص
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="toggle-fullscreen-editor"
+                                    class="btn btn-outline"
+                                    style="padding:4px 10px;font-size:12px"
+                                >
+                                    <i class="fa-solid fa-expand"></i>
+                                    وضع الشاشة الكاملة
+                                </button>
+                            </span>
                         </label>
 
                         <textarea
                             name="content"
+                            id="content-editor"
                             class="form-control @error('content') is-invalid @enderror"
                             rows="18"
-                            required
+                            
                         >{{ old('content') }}</textarea>
 
                         @error('content')
@@ -216,7 +240,7 @@
                             name="status"
                             id="article-status"
                             class="form-control @error('status') is-invalid @enderror"
-                            required
+                           
                         >
                             @foreach ([
                                 'draft' => __('admin.status_draft'),
@@ -862,11 +886,94 @@
             flex-direction:column;
         }
     }
+
+    /* CKEditor container so it doesn't feel like a bare textarea */
+    .ck-editor__editable {
+        min-height:480px;
+        line-height:1.8;
+    }
+
+    /* Content images must be responsive and never overflow the editor / article area */
+    .ck-content img,
+    .ck-content .image img {
+        max-width:100%;
+        height:auto;
+    }
+
+    .ck-content table {
+        max-width:100%;
+    }
+
+    /* Custom, free (no license required) fullscreen mode for the editor */
+    #content-editor-container.editor-fullscreen {
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:#fff;
+        padding:20px;
+        margin:0;
+        overflow:auto;
+    }
+
+    #content-editor-container.editor-fullscreen .ck-editor__editable {
+        min-height:calc(100vh - 170px);
+    }
+
+    body.editor-fullscreen-active {
+        overflow:hidden;
+    }
 </style>
 
-<script>
+{{-- محرر النصوص الغني (شريط أدوات كامل + إدراج صور داخل المحتوى) — CKEditor 5 (48.4.0) محلي عبر ESM، بدون CDN --}}
+<link rel="stylesheet" href="{{ asset('assets/vendor/ckeditor5-48.4.0/ckeditor5.css') }}">
+
+<script type="module">
+import {
+    Alignment,
+    Autoformat,
+    BlockQuote,
+    Bold,
+    ClassicEditor,
+    Essentials,
+    FontBackgroundColor,
+    FontColor,
+    FontFamily,
+    FontSize,
+    Heading,
+    HorizontalLine,
+    Image,
+    ImageCaption,
+    ImageStyle,
+    ImageTextAlternative,
+    ImageToolbar,
+    ImageUpload,
+    Indent,
+    IndentBlock,
+    Italic,
+    Link,
+    LinkImage,
+    List,
+    Paragraph,
+    PasteFromOffice,
+    RemoveFormat,
+    SimpleUploadAdapter,
+    SourceEditing,
+    Strikethrough,
+    Table,
+    TableToolbar,
+    TextPartLanguage,
+    TextTransformation,
+    Underline
+} from "{{ asset('assets/vendor/ckeditor5-48.4.0/ckeditor5.js') }}";
+
+import translations from "{{ asset('assets/vendor/ckeditor5-48.4.0/translations/ar.js') }}";
+
 document.addEventListener('DOMContentLoaded', function () {
     const pickerUrl = @json(route('admin.media.picker'));
+    const contentImageUploadUrl = @json(route('admin.articles.upload-content-image'));
+    const csrfToken = document.querySelector(
+        '#article-create-form input[name="_token"]'
+    ).value;
 
     const statusInput = document.getElementById('article-status');
     const scheduleWrapper = document.getElementById(
@@ -876,6 +983,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('media-picker-modal');
     const openPickerButton = document.getElementById(
         'open-media-picker'
+    );
+    const insertInlineButton = document.getElementById(
+        'insert-inline-image'
     );
     const closePickerButton = document.getElementById(
         'close-media-picker'
@@ -934,9 +1044,22 @@ document.addEventListener('DOMContentLoaded', function () {
         'media-page-status'
     );
 
+    const fullscreenButton = document.getElementById(
+        'toggle-fullscreen-editor'
+    );
+    const editorContainer = document.getElementById(
+        'content-editor-container'
+    );
+
     let currentPage = 1;
     let lastPage = 1;
     let objectUrl = null;
+
+    // 'main-image': تحديد الصورة الرئيسية.
+    // 'editor-insert': إدراج الصورة داخل محتوى CKEditor.
+    let mediaPickerMode = 'main-image';
+
+    let articleEditor = null;
 
     function updateScheduleVisibility() {
         scheduleWrapper.style.display =
@@ -967,7 +1090,9 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedImageName.textContent = name;
     }
 
-    function openModal() {
+    function openModal(mode) {
+        mediaPickerMode = mode || 'main-image';
+
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -1051,6 +1176,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 button.appendChild(name);
 
                 button.addEventListener('click', function () {
+                    if (mediaPickerMode === 'editor-insert') {
+                        if (articleEditor) {
+                            articleEditor.execute('insertImage', {
+                                source: item.url
+                            });
+                        }
+
+                        closeModal();
+                        return;
+                    }
+
                     mediaIdInput.value = item.id;
                     fileInput.value = '';
                     urlInput.value = '';
@@ -1081,7 +1217,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    openPickerButton.addEventListener('click', openModal);
+    openPickerButton.addEventListener('click', function () {
+        openModal('main-image');
+    });
+
+    insertInlineButton.addEventListener('click', function () {
+        openModal('editor-insert');
+    });
+
     closePickerButton.addEventListener('click', closeModal);
 
     modal.addEventListener('click', function (event) {
@@ -1096,6 +1239,13 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.classList.contains('is-open')
         ) {
             closeModal();
+        }
+
+        if (
+            event.key === 'Escape' &&
+            editorContainer.classList.contains('editor-fullscreen')
+        ) {
+            exitFullscreenEditor();
         }
     });
 
@@ -1182,6 +1332,204 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
     updateScheduleVisibility();
+
+    function exitFullscreenEditor() {
+        editorContainer.classList.remove('editor-fullscreen');
+        document.body.classList.remove('editor-fullscreen-active');
+
+        fullscreenButton.innerHTML =
+            '<i class="fa-solid fa-expand"></i> وضع الشاشة الكاملة';
+
+        window.dispatchEvent(new Event('resize'));
+    }
+
+    fullscreenButton.addEventListener('click', function () {
+        const isFullscreen = editorContainer.classList.toggle(
+            'editor-fullscreen'
+        );
+
+        document.body.classList.toggle(
+            'editor-fullscreen-active',
+            isFullscreen
+        );
+
+        fullscreenButton.innerHTML = isFullscreen
+            ? '<i class="fa-solid fa-compress"></i> إنهاء الشاشة الكاملة'
+            : '<i class="fa-solid fa-expand"></i> وضع الشاشة الكاملة';
+
+        window.dispatchEvent(new Event('resize'));
+    });
+
+    ClassicEditor
+        .create(document.getElementById('content-editor'), {
+            licenseKey: 'GPL',
+
+            plugins: [
+                Alignment,
+                Autoformat,
+                BlockQuote,
+                Bold,
+                Essentials,
+                FontBackgroundColor,
+                FontColor,
+                FontFamily,
+                FontSize,
+                Heading,
+                HorizontalLine,
+                Image,
+                ImageCaption,
+                ImageStyle,
+                ImageTextAlternative,
+                ImageToolbar,
+                ImageUpload,
+                Indent,
+                IndentBlock,
+                Italic,
+                Link,
+                LinkImage,
+                List,
+                Paragraph,
+                PasteFromOffice,
+                RemoveFormat,
+                SimpleUploadAdapter,
+                SourceEditing,
+                Strikethrough,
+                Table,
+                TableToolbar,
+                TextPartLanguage,
+                TextTransformation,
+                Underline
+            ],
+
+            translations: [translations],
+
+            language: {
+                ui: 'ar',
+                content: 'ar',
+                textPartLanguage: [
+                    {
+                        title: 'العربية',
+                        languageCode: 'ar'
+                    },
+                    {
+                        title: 'English',
+                        languageCode: 'en',
+                        textDirection: 'ltr'
+                    }
+                ]
+            },
+
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'fontFamily',
+                    'fontSize',
+                    '|',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'strikethrough',
+                    '|',
+                    'fontColor',
+                    'fontBackgroundColor',
+                    'removeFormat',
+                    '|',
+                    'alignment',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    'outdent',
+                    'indent',
+                    '|',
+                    'blockQuote',
+                    'insertTable',
+                    'link',
+                    'uploadImage',
+                    'horizontalLine',
+                    '|',
+                    'textPartLanguage',
+                    '|',
+                    'sourceEditing',
+                    '|',
+                    'undo',
+                    'redo'
+                ]
+            },
+
+            fontFamily: {
+                options: [
+                    'default',
+                    'Arial, Helvetica, sans-serif',
+                    'Tahoma, Geneva, sans-serif',
+                    '"Traditional Arabic", serif',
+                    'Georgia, serif',
+                    '"Courier New", Courier, monospace',
+                    'Verdana, Geneva, sans-serif'
+                ],
+                supportAllValues: true
+            },
+
+            fontSize: {
+                options: [
+                    10,
+                    12,
+                    14,
+                    'default',
+                    18,
+                    20,
+                    24,
+                    28,
+                    32,
+                    40
+                ],
+                supportAllValues: true
+            },
+
+            image: {
+                toolbar: [
+                    'imageTextAlternative',
+                    'imageStyle:inline',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'linkImage'
+                ]
+            },
+
+            table: {
+                contentToolbar: [
+                    'tableColumn',
+                    'tableRow',
+                    'mergeTableCells'
+                ]
+            },
+
+            simpleUpload: {
+                uploadUrl: contentImageUploadUrl,
+                withCredentials: true,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    Accept: 'application/json'
+                }
+            }
+        })
+        .then(function (editor) {
+            articleEditor = editor;
+
+            document
+                .getElementById('article-create-form')
+                .addEventListener('submit', function () {
+                    editor.updateSourceElement();
+                });
+        })
+        .catch(function (error) {
+            console.error('CKEditor failed to load:', error);
+
+            alert(
+                'تعذر تحميل محرر النصوص المتقدم. سيتم استخدام الحقل العادي بدلاً منه.'
+            );
+        });
 });
 </script>
 

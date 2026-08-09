@@ -60,9 +60,9 @@
 
         <h1 style="font-size:24px;font-weight:900;color:var(--white);line-height:1.5;margin-bottom:14px">{{ $article->title }}</h1>
 
-        @if($article->summary)
+        {{-- @if($article->summary)
         <p style="font-size:15px;color:rgba(255,255,255,.6);line-height:1.8;padding:14px;background:var(--surface2);border-radius:8px;border-{{ $isRtl ? 'right' : 'left' }}:3px solid var(--gold);margin-bottom:20px">{{ $article->summary }}</p>
-        @endif
+        @endif --}}
 
         <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);flex-wrap:wrap">
           @if($article->journalist)
@@ -105,7 +105,7 @@
 
           <div style="display:flex;gap:12px;font-size:12.5px;color:rgba(255,255,255,.4);flex-wrap:wrap">
             <span><i class="fa-solid fa-calendar" style="color:var(--gold)"></i> {{ $article->published_at?->format('Y/m/d H:i') }}</span>
-            <span><i class="fa-solid fa-eye" style="color:var(--gold)"></i> {{ __('messages.views_count',['count'=>number_format($article->views)]) }}</span>
+            {{-- <span><i class="fa-solid fa-eye" style="color:var(--gold)"></i> {{ __('messages.views_count',['count'=>number_format($article->views)]) }}</span> --}}
             <span><i class="fa-solid fa-clock" style="color:var(--gold)"></i> {{ __('messages.reading_time',['mins'=>$article->reading_time]) }}</span>
           </div>
         </div>

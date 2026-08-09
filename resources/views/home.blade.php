@@ -114,6 +114,35 @@
   .home-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 28px; align-items: start; }
   .home-sidebar { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 
+  /* Responsive foundations for every screen size. */
+  .home-page,
+  .home-page * { box-sizing: border-box; }
+  .home-page { width: 100%; overflow-x: clip; }
+  .home-page .container,
+  .breaking-bar .container { width: min(calc(100% - 32px), 1240px); margin-inline: auto; }
+  .home-page img,
+  .home-page video { max-width: 100%; }
+  .home-page a,
+  .home-page p,
+  .home-page h1,
+  .home-page .article-title,
+  .home-page .widget-article-title { overflow-wrap: anywhere; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, .8fr); gap: 18px; align-items: stretch; }
+  .hero-grid > * { min-width: 0; }
+  .article-card-featured { min-width: 0; overflow: hidden; }
+  .article-card-featured .card-img { min-height: 290px; aspect-ratio: 16 / 9; }
+  .article-card-featured .card-img > img { width: 100%; height: 100%; object-fit: cover; }
+  .articles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .editor-picks-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .article-card,
+  .article-card-body,
+  .widget-article-body,
+  .home-layout > div { min-width: 0; }
+  .article-card-img { overflow: hidden; aspect-ratio: 16 / 9; }
+  .article-card-img > img { width: 100%; height: 100%; object-fit: cover; }
+  .section-header { gap: 12px; }
+  .section-title { min-width: 0; }
+
   .home-ad-list { display: grid; gap: 12px; }
   .home-ad {
     position: relative;
@@ -226,21 +255,78 @@
     to   { background-position-x: -640px; }
   }
 
-  @media (max-width: 1024px) {
-    .home-layout { grid-template-columns: minmax(0, 1fr) 280px; gap: 20px; }
+  /* Compact desktop and landscape tablets. */
+  @media (max-width: 1180px) {
+    .home-layout { grid-template-columns: minmax(0, 1fr) 285px; gap: 22px; }
+    .articles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
-  @media (max-width: 820px) {
-    .home-page { padding-block: 22px 38px; }
+
+  /* Tablets. */
+  @media (max-width: 900px) {
+    .home-page { padding-block: 24px 40px; }
     .home-layout { grid-template-columns: 1fr; }
-    .home-sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .home-sidebar .sidebar-widget, .home-sidebar .sidebar-ad { margin: 0; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-grid > div:last-child { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .hero-grid > div:last-child .article-card { flex-direction: column !important; }
+    .hero-grid > div:last-child .article-card > div:first-child { width: 100% !important; height: 130px; border-radius: 10px 10px 0 0 !important; }
+    .home-sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+    .home-sidebar .sidebar-widget,
+    .home-sidebar .sidebar-ad { width: 100%; margin: 0; }
+    .sidebar-ad-media { aspect-ratio: 16 / 9; }
   }
-  @media (max-width: 560px) {
-    .home-section { margin-bottom: 26px; }
+
+  /* Large phones and portrait tablets. */
+  @media (max-width: 680px) {
+    .home-page .container,
+    .breaking-bar .container { width: min(calc(100% - 24px), 1240px); }
+    .home-page { padding-block: 20px 34px; }
+    .home-section { margin-bottom: 28px; }
+    .article-card-featured .card-img { min-height: 220px; }
+    .article-card-featured .card-body { padding: 16px; }
+    .article-card-featured .card-title { font-size: clamp(20px, 5.8vw, 28px); line-height: 1.45; }
+    .articles-grid,
+    .editor-picks-grid,
     .home-sidebar { grid-template-columns: 1fr; }
-    .home-ad { min-height: 92px; border-radius: 10px; }
-    .home-ad-media { height: 105px; }
-    .home-ad-fallback { min-height: 92px; padding: 18px; }
+    .hero-grid > div:last-child { grid-template-columns: 1fr !important; }
+    .hero-grid > div:last-child .article-card { flex-direction: row !important; }
+    .hero-grid > div:last-child .article-card > div:first-child { width: 110px !important; height: auto; min-height: 105px; border-radius: 10px 0 0 10px !important; }
+    [dir="rtl"] .hero-grid > div:last-child .article-card > div:first-child { border-radius: 0 10px 10px 0 !important; }
+    .article-card-img { aspect-ratio: 16 / 9; }
+    .section-header { align-items: center; }
+    .section-title { font-size: clamp(16px, 4.5vw, 20px); }
+    .section-more { flex-shrink: 0; white-space: nowrap; }
+    .article-meta { flex-wrap: wrap; row-gap: 5px; }
+    .breaking-bar .container { min-width: 0; }
+    .breaking-label { flex-shrink: 0; white-space: nowrap; }
+    .breaking-ticker { min-width: 0; overflow: hidden; }
+    .home-ad { min-height: 96px; border-radius: 11px; }
+    .home-ad-media { height: clamp(100px, 30vw, 145px); }
+    .home-ad-fallback { min-height: 96px; padding: 18px; }
+    .sidebar-ad-media { max-height: 280px; }
+  }
+
+  /* Small phones. */
+  @media (max-width: 420px) {
+    .home-page .container,
+    .breaking-bar .container { width: min(calc(100% - 20px), 1240px); }
+    .home-page { padding-block: 16px 28px; }
+    .home-section { margin-bottom: 23px; }
+    .article-card-featured .card-img { min-height: 185px; }
+    .article-card-featured .card-body { padding: 14px; }
+    .hero-grid { gap: 12px; }
+    .hero-grid > div:last-child { gap: 10px !important; }
+    .hero-grid > div:last-child .article-card > div:first-child { width: 92px !important; min-height: 94px; }
+    .article-card-body { padding: 13px; }
+    .article-title { line-height: 1.55; }
+    .section-header { margin-bottom: 14px; }
+    .section-title { font-size: 16px; }
+    .section-more { font-size: 11px; }
+    .badge-breaking,
+    .badge-featured { font-size: 9px; padding: 4px 7px; }
+    .article-meta { font-size: 10.5px; }
+    .home-ad-media { height: 100px; }
+    .home-ad-title { font-size: 13px; }
+    .sidebar-widget { border-radius: 11px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .ad-animate,
@@ -346,7 +432,7 @@
           <div class="article-meta">
             @if($hero->journalist)<span><i class="fa-solid fa-user-pen"></i>{{ $hero->journalist->name }}</span>@endif
             <span><i class="fa-solid fa-clock"></i>{{ $hero->published_at?->diffForHumans() }}</span>
-            <span><i class="fa-solid fa-eye"></i>{{ number_format($hero->views) }}</span>
+            {{-- <span><i class="fa-solid fa-eye"></i>{{ number_format($hero->views) }}</span> --}}
           </div>
         </div>
       </div>
@@ -408,7 +494,7 @@
               <div class="article-meta">
                 @if($a->journalist)<span><i class="fa-solid fa-user-pen"></i>{{ $a->journalist->name }}</span>@endif
                 <span><i class="fa-solid fa-clock"></i>{{ $a->published_at?->diffForHumans() }}</span>
-                <span><i class="fa-solid fa-eye"></i>{{ number_format($a->views) }}</span>
+                {{-- <span><i class="fa-solid fa-eye"></i>{{ number_format($a->views) }}</span> --}}
               </div>
             </div>
           </div>
@@ -473,7 +559,7 @@
             <div class="article-card-body">
               <div class="article-cat"><i class="fa-solid fa-video"></i> {{ $vid->category?->name ?? __('messages.section_videos') }}</div>
               <div class="article-title">{{ Str::limit($vid->title,68) }}</div>
-              <div class="article-meta"><span><i class="fa-solid fa-eye"></i>{{ __('messages.views_count',['count'=>number_format($vid->views)]) }}</span></div>
+              {{-- <div class="article-meta"><span><i class="fa-solid fa-eye"></i>{{ __('messages.views_count',['count'=>number_format($vid->views)]) }}</span></div> --}}
             </div>
           </a>
           @endforeach
@@ -493,7 +579,7 @@
             <div style="font-size:20px;font-weight:900;color:{{ $i<3?'var(--gold)':'rgba(255,255,255,.2)' }};width:28px;flex-shrink:0;text-align:center;font-family:'Inter',sans-serif">{{ $i+1 }}</div>
             <div class="widget-article-body">
               <div class="widget-article-title">{{ Str::limit($t->title,68) }}</div>
-              <div class="widget-article-meta"><i class="fa-solid fa-eye" style="color:var(--gold);opacity:.6"></i> {{ number_format($t->views) }}</div>
+              {{-- <div class="widget-article-meta"><i class="fa-solid fa-eye" style="color:var(--gold);opacity:.6"></i> {{ number_format($t->views) }}</div> --}}
             </div>
           </a>
           @empty

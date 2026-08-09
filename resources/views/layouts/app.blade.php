@@ -72,7 +72,7 @@ body::before{
   background-image:
     radial-gradient(circle at 18% 22%, rgba(200,154,43,.12), transparent 55%),
     radial-gradient(circle at 82% 78%, rgba(200,154,43,.08), transparent 55%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='960' height='480' viewBox='0 0 960 480'%3E%3Cg fill='%23C89A2B' fill-opacity='.55'%3E%3Ccircle cx='138' cy='108' r='2.2'/%3E%3Ccircle cx='147' cy='93' r='2.1'/%3E%3Ccircle cx='159' cy='213' r='1.7'/%3E%3Ccircle cx='117' cy='182' r='2.4'/%3E%3Ccircle cx='189' cy='146' r='2.4'/%3E%3Ccircle cx='131' cy='107' r='1.7'/%3E%3Ccircle cx='110' cy='174' r='2.1'/%3E%3Ccircle cx='149' cy='170' r='1.6'/%3E%3Ccircle cx='84' cy='116' r='2.2'/%3E%3Ccircle cx='159' cy='134' r='2.1'/%3E%3Ccircle cx='165' cy='131' r='2.3'/%3E%3Ccircle cx='215' cy='122' r='2.1'/%3E%3Ccircle cx='179' cy='221' r='2.2'/%3E%3Ccircle cx='96' cy='149' r='2.2'/%3E%3Ccircle cx='104' cy='161' r='1.6'/%3E%3Ccircle cx='209' cy='204' r='2.1'/%3E%3Ccircle cx='251' cy='134' r='2.2'/%3E%3Ccircle cx='194' cy='174' r='1.9'/%3E%3Ccircle cx='168' cy='188' r='1.6'/%3E%3Ccircle cx='215' cy='185' r='2.4'/%3E%3Ccircle cx='240' cy='129' r='1.9'/%3E%3Ccircle cx='167' cy='110' r='1.7'/%3E%3Ccircle cx='99' cy='123' r='1.9'/%3E%3Ccircle cx='164' cy='170' r='2.3'/%3E%3Ccircle cx='239' cy='219' r='1.8'/%3E%3Ccircle cx='156' cy='140' r='2.3'/%3E%3Ccircle cx='108' cy='120' r='1.8'/%3E%3Ccircle cx='171' cy='176' r='1.8'/%3E%3Ccircle cx='147' cy='173' r='2.4'/%3E%3Ccircle cx='213' cy='165' r='2.1'/%3E%3Ccircle cx='210' cy='93' r='2.3'/%3E%3Ccircle cx='231' cy='221' r='2.3'/%3E%3Ccircle cx='152' cy='146' r='1.7'/%3E%3Ccircle cx='201' cy='93' r='1.6'/%3E%3Ccircle cx='240' cy='266' r='1.8'/%3E%3Ccircle cx='234' cy='257' r='1.9'/%3E%3Ccircle cx='273' cy='263' r='1.8'/%3E%3Ccircle cx='251' cy='297' r='1.7'/%3E%3Ccircle cx='261' cy='315' r='1.7'/%3E%3Ccircle cx='231' cy='294' r='1.8'/%3E%3Ccircle cx='291' cy='266' r='1.6'/%3E%3Ccircle cx='302' cy='323' r='1.7'/%3E%3Ccircle cx='267' cy='245' r='2.1'/%3E%3Ccircle cx='281' cy='281' r='1.9'/%3E%3Ccircle cx='236' cy='360' r='2.1'/%3E%3Ccircle cx='288' cy='291' r='1.8'/%3E%3Ccircle cx='294' cy='366' r='2.4'/%3E%3Ccircle cx='284' cy='276' r='2.1'/%3E%3Ccircle cx='225' cy='284' r='1.8'/%3E%3Ccircle cx='260' cy='386' r='2.4'/%3E%3Ccircle cx='302' cy='297' r='1.8'/%3E%3Ccircle cx='242' cy='270' r='1.7'/%3E%3Ccircle cx='275' cy='381' r='2.3'/%3E%3Ccircle cx='263' cy='342' r='2.3'/%3E%3Ccircle cx='285' cy='315' r='1.7'/%3E%3Ccircle cx='288' cy='293' r='2.3'/%3E%3Ccircle cx='303' cy='302' r='1.9'/%3E%3Ccircle cx='237' cy='260' r='1.7'/%3E%3Ccircle cx='252' cy='326' r='1.7'/%3E%3Ccircle cx='276' cy='323' r='2.4'/%3E%3Ccircle cx='501' cy='146' r='2.3'/%3E%3Ccircle cx='482' cy='93' r='1.8'/%3E%3Ccircle cx='483' cy='122' r='1.8'/%3E%3Ccircle cx='500' cy='83' r='2.3'/%3E%3Ccircle cx='494' cy='111' r='2.1'/%3E%3Ccircle cx='543' cy='108' r='2.3'/%3E%3Ccircle cx='507' cy='117' r='2.1'/%3E%3Ccircle cx='534' cy='87' r='1.9'/%3E%3Ccircle cx='528' cy='119' r='1.8'/%3E%3Ccircle cx='509' cy='119' r='2.2'/%3E%3Ccircle cx='471' cy='119' r='1.8'/%3E%3Ccircle cx='488' cy='137' r='2.1'/%3E%3Ccircle cx='513' cy='137' r='2.3'/%3E%3Ccircle cx='503' cy='123' r='2.1'/%3E%3Ccircle cx='509' cy='131' r='1.9'/%3E%3Ccircle cx='510' cy='113' r='2.4'/%3E%3Ccircle cx='525' cy='146' r='2.4'/%3E%3Ccircle cx='486' cy='119' r='2.4'/%3E%3Ccircle cx='552' cy='185' r='1.7'/%3E%3Ccircle cx='510' cy='171' r='1.8'/%3E%3Ccircle cx='534' cy='185' r='2.3'/%3E%3Ccircle cx='567' cy='201' r='2.4'/%3E%3Ccircle cx='506' cy='255' r='2.4'/%3E%3Ccircle cx='552' cy='189' r='1.9'/%3E%3Ccircle cx='518' cy='225' r='1.7'/%3E%3Ccircle cx='497' cy='303' r='1.6'/%3E%3Ccircle cx='522' cy='246' r='1.6'/%3E%3Ccircle cx='498' cy='284' r='2.1'/%3E%3Ccircle cx='474' cy='210' r='1.6'/%3E%3Ccircle cx='546' cy='212' r='1.7'/%3E%3Ccircle cx='507' cy='342' r='2.3'/%3E%3Ccircle cx='491' cy='186' r='2.3'/%3E%3Ccircle cx='524' cy='299' r='1.7'/%3E%3Ccircle cx='509' cy='171' r='2.4'/%3E%3Ccircle cx='531' cy='320' r='1.7'/%3E%3Ccircle cx='555' cy='249' r='1.8'/%3E%3Ccircle cx='522' cy='345' r='1.8'/%3E%3Ccircle cx='476' cy='264' r='1.8'/%3E%3Ccircle cx='474' cy='189' r='1.6'/%3E%3Ccircle cx='485' cy='219' r='1.8'/%3E%3Ccircle cx='545' cy='215' r='2.1'/%3E%3Ccircle cx='482' cy='227' r='1.6'/%3E%3Ccircle cx='542' cy='269' r='1.7'/%3E%3Ccircle cx='513' cy='347' r='1.7'/%3E%3Ccircle cx='551' cy='245' r='1.9'/%3E%3Ccircle cx='552' cy='236' r='2.1'/%3E%3Ccircle cx='500' cy='326' r='2.2'/%3E%3Ccircle cx='531' cy='239' r='1.8'/%3E%3Ccircle cx='468' cy='183' r='1.6'/%3E%3Ccircle cx='542' cy='209' r='1.7'/%3E%3Ccircle cx='557' cy='293' r='1.8'/%3E%3Ccircle cx='488' cy='216' r='1.9'/%3E%3Ccircle cx='596' cy='146' r='1.8'/%3E%3Ccircle cx='704' cy='107' r='2.4'/%3E%3Ccircle cx='638' cy='129' r='1.6'/%3E%3Ccircle cx='657' cy='152' r='2.1'/%3E%3Ccircle cx='608' cy='158' r='1.6'/%3E%3Ccircle cx='626' cy='77' r='1.9'/%3E%3Ccircle cx='636' cy='105' r='2.1'/%3E%3Ccircle cx='698' cy='204' r='2.2'/%3E%3Ccircle cx='660' cy='123' r='2.4'/%3E%3Ccircle cx='594' cy='200' r='2.2'/%3E%3Ccircle cx='798' cy='180' r='2.2'/%3E%3Ccircle cx='776' cy='87' r='2.1'/%3E%3Ccircle cx='692' cy='221' r='2.3'/%3E%3Ccircle cx='780' cy='173' r='2.3'/%3E%3Ccircle cx='741' cy='194' r='1.8'/%3E%3Ccircle cx='651' cy='80' r='2.3'/%3E%3Ccircle cx='707' cy='180' r='2.1'/%3E%3Ccircle cx='740' cy='155' r='1.6'/%3E%3Ccircle cx='773' cy='204' r='2.1'/%3E%3Ccircle cx='699' cy='186' r='1.6'/%3E%3Ccircle cx='756' cy='108' r='1.7'/%3E%3Ccircle cx='626' cy='200' r='1.7'/%3E%3Ccircle cx='689' cy='134' r='1.9'/%3E%3Ccircle cx='741' cy='207' r='2.1'/%3E%3Ccircle cx='729' cy='75' r='1.7'/%3E%3Ccircle cx='623' cy='203' r='1.8'/%3E%3Ccircle cx='708' cy='63' r='1.6'/%3E%3Ccircle cx='626' cy='189' r='2.2'/%3E%3Ccircle cx='738' cy='116' r='2.1'/%3E%3Ccircle cx='680' cy='150' r='1.7'/%3E%3Ccircle cx='798' cy='99' r='2.4'/%3E%3Ccircle cx='678' cy='218' r='2.4'/%3E%3Ccircle cx='677' cy='111' r='1.7'/%3E%3Ccircle cx='713' cy='87' r='2.1'/%3E%3Ccircle cx='779' cy='158' r='2.3'/%3E%3Ccircle cx='746' cy='105' r='2.3'/%3E%3Ccircle cx='686' cy='65' r='1.6'/%3E%3Ccircle cx='687' cy='147' r='1.8'/%3E%3Ccircle cx='591' cy='126' r='1.8'/%3E%3Ccircle cx='632' cy='132' r='1.9'/%3E%3Ccircle cx='651' cy='143' r='1.8'/%3E%3Ccircle cx='566' cy='80' r='2.3'/%3E%3Ccircle cx='621' cy='111' r='2.1'/%3E%3Ccircle cx='605' cy='132' r='2.4'/%3E%3Ccircle cx='750' cy='69' r='2.2'/%3E%3Ccircle cx='677' cy='204' r='2.2'/%3E%3Ccircle cx='632' cy='69' r='2.3'/%3E%3Ccircle cx='587' cy='150' r='1.8'/%3E%3Ccircle cx='635' cy='203' r='2.4'/%3E%3Ccircle cx='624' cy='186' r='1.8'/%3E%3Ccircle cx='707' cy='135' r='1.7'/%3E%3Ccircle cx='597' cy='101' r='2.3'/%3E%3Ccircle cx='689' cy='102' r='2.3'/%3E%3Ccircle cx='591' cy='98' r='1.7'/%3E%3Ccircle cx='647' cy='78' r='1.8'/%3E%3Ccircle cx='624' cy='170' r='2.3'/%3E%3Ccircle cx='827' cy='342' r='1.9'/%3E%3Ccircle cx='804' cy='339' r='1.8'/%3E%3Ccircle cx='756' cy='332' r='2.4'/%3E%3Ccircle cx='764' cy='348' r='2.1'/%3E%3Ccircle cx='839' cy='327' r='1.8'/%3E%3Ccircle cx='776' cy='341' r='1.9'/%3E%3Ccircle cx='842' cy='347' r='2.1'/%3E%3Ccircle cx='765' cy='350' r='2.2'/%3E%3Ccircle cx='816' cy='368' r='1.9'/%3E%3Ccircle cx='830' cy='329' r='2.3'/%3E%3Ccircle cx='816' cy='335' r='1.7'/%3E%3Ccircle cx='776' cy='359' r='2.2'/%3E%3Ccircle cx='804' cy='354' r='1.9'/%3E%3Ccircle cx='773' cy='356' r='1.6'/%3E%3Ccircle cx='782' cy='345' r='2.4'/%3E%3Ccircle cx='816' cy='375' r='1.9'/%3E%3C/g%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www\\.w3.org/2000/svg' width='960' height='480' viewBox='0 0 960 480'%3E%3Cg fill='%23C89A2B' fill-opacity='.55'%3E%3Ccircle cx='138' cy='108' r='2.2'/%3E%3Ccircle cx='147' cy='93' r='2.1'/%3E%3Ccircle cx='159' cy='213' r='1.7'/%3E%3Ccircle cx='117' cy='182' r='2.4'/%3E%3Ccircle cx='189' cy='146' r='2.4'/%3E%3Ccircle cx='131' cy='107' r='1.7'/%3E%3Ccircle cx='110' cy='174' r='2.1'/%3E%3Ccircle cx='149' cy='170' r='1.6'/%3E%3Ccircle cx='84' cy='116' r='2.2'/%3E%3Ccircle cx='159' cy='134' r='2.1'/%3E%3Ccircle cx='165' cy='131' r='2.3'/%3E%3Ccircle cx='215' cy='122' r='2.1'/%3E%3Ccircle cx='179' cy='221' r='2.2'/%3E%3Ccircle cx='96' cy='149' r='2.2'/%3E%3Ccircle cx='104' cy='161' r='1.6'/%3E%3Ccircle cx='209' cy='204' r='2.1'/%3E%3Ccircle cx='251' cy='134' r='2.2'/%3E%3Ccircle cx='194' cy='174' r='1.9'/%3E%3Ccircle cx='168' cy='188' r='1.6'/%3E%3Ccircle cx='215' cy='185' r='2.4'/%3E%3Ccircle cx='240' cy='129' r='1.9'/%3E%3Ccircle cx='167' cy='110' r='1.7'/%3E%3Ccircle cx='99' cy='123' r='1.9'/%3E%3Ccircle cx='164' cy='170' r='2.3'/%3E%3Ccircle cx='239' cy='219' r='1.8'/%3E%3Ccircle cx='156' cy='140' r='2.3'/%3E%3Ccircle cx='108' cy='120' r='1.8'/%3E%3Ccircle cx='171' cy='176' r='1.8'/%3E%3Ccircle cx='147' cy='173' r='2.4'/%3E%3Ccircle cx='213' cy='165' r='2.1'/%3E%3Ccircle cx='210' cy='93' r='2.3'/%3E%3Ccircle cx='231' cy='221' r='2.3'/%3E%3Ccircle cx='152' cy='146' r='1.7'/%3E%3Ccircle cx='201' cy='93' r='1.6'/%3E%3Ccircle cx='240' cy='266' r='1.8'/%3E%3Ccircle cx='234' cy='257' r='1.9'/%3E%3Ccircle cx='273' cy='263' r='1.8'/%3E%3Ccircle cx='251' cy='297' r='1.7'/%3E%3Ccircle cx='261' cy='315' r='1.7'/%3E%3Ccircle cx='231' cy='294' r='1.8'/%3E%3Ccircle cx='291' cy='266' r='1.6'/%3E%3Ccircle cx='302' cy='323' r='1.7'/%3E%3Ccircle cx='267' cy='245' r='2.1'/%3E%3Ccircle cx='281' cy='281' r='1.9'/%3E%3Ccircle cx='236' cy='360' r='2.1'/%3E%3Ccircle cx='288' cy='291' r='1.8'/%3E%3Ccircle cx='294' cy='366' r='2.4'/%3E%3Ccircle cx='284' cy='276' r='2.1'/%3E%3Ccircle cx='225' cy='284' r='1.8'/%3E%3Ccircle cx='260' cy='386' r='2.4'/%3E%3Ccircle cx='302' cy='297' r='1.8'/%3E%3Ccircle cx='242' cy='270' r='1.7'/%3E%3Ccircle cx='275' cy='381' r='2.3'/%3E%3Ccircle cx='263' cy='342' r='2.3'/%3E%3Ccircle cx='285' cy='315' r='1.7'/%3E%3Ccircle cx='288' cy='293' r='2.3'/%3E%3Ccircle cx='303' cy='302' r='1.9'/%3E%3Ccircle cx='237' cy='260' r='1.7'/%3E%3Ccircle cx='252' cy='326' r='1.7'/%3E%3Ccircle cx='276' cy='323' r='2.4'/%3E%3Ccircle cx='501' cy='146' r='2.3'/%3E%3Ccircle cx='482' cy='93' r='1.8'/%3E%3Ccircle cx='483' cy='122' r='1.8'/%3E%3Ccircle cx='500' cy='83' r='2.3'/%3E%3Ccircle cx='494' cy='111' r='2.1'/%3E%3Ccircle cx='543' cy='108' r='2.3'/%3E%3Ccircle cx='507' cy='117' r='2.1'/%3E%3Ccircle cx='534' cy='87' r='1.9'/%3E%3Ccircle cx='528' cy='119' r='1.8'/%3E%3Ccircle cx='509' cy='119' r='2.2'/%3E%3Ccircle cx='471' cy='119' r='1.8'/%3E%3Ccircle cx='488' cy='137' r='2.1'/%3E%3Ccircle cx='513' cy='137' r='2.3'/%3E%3Ccircle cx='503' cy='123' r='2.1'/%3E%3Ccircle cx='509' cy='131' r='1.9'/%3E%3Ccircle cx='510' cy='113' r='2.4'/%3E%3Ccircle cx='525' cy='146' r='2.4'/%3E%3Ccircle cx='486' cy='119' r='2.4'/%3E%3Ccircle cx='552' cy='185' r='1.7'/%3E%3Ccircle cx='510' cy='171' r='1.8'/%3E%3Ccircle cx='534' cy='185' r='2.3'/%3E%3Ccircle cx='567' cy='201' r='2.4'/%3E%3Ccircle cx='506' cy='255' r='2.4'/%3E%3Ccircle cx='552' cy='189' r='1.9'/%3E%3Ccircle cx='518' cy='225' r='1.7'/%3E%3Ccircle cx='497' cy='303' r='1.6'/%3E%3Ccircle cx='522' cy='246' r='1.6'/%3E%3Ccircle cx='498' cy='284' r='2.1'/%3E%3Ccircle cx='474' cy='210' r='1.6'/%3E%3Ccircle cx='546' cy='212' r='1.7'/%3E%3Ccircle cx='507' cy='342' r='2.3'/%3E%3Ccircle cx='491' cy='186' r='2.3'/%3E%3Ccircle cx='524' cy='299' r='1.7'/%3E%3Ccircle cx='509' cy='171' r='2.4'/%3E%3Ccircle cx='531' cy='320' r='1.7'/%3E%3Ccircle cx='555' cy='249' r='1.8'/%3E%3Ccircle cx='522' cy='345' r='1.8'/%3E%3Ccircle cx='476' cy='264' r='1.8'/%3E%3Ccircle cx='474' cy='189' r='1.6'/%3E%3Ccircle cx='485' cy='219' r='1.8'/%3E%3Ccircle cx='545' cy='215' r='2.1'/%3E%3Ccircle cx='482' cy='227' r='1.6'/%3E%3Ccircle cx='542' cy='269' r='1.7'/%3E%3Ccircle cx='513' cy='347' r='1.7'/%3E%3Ccircle cx='551' cy='245' r='1.9'/%3E%3Ccircle cx='552' cy='236' r='2.1'/%3E%3Ccircle cx='500' cy='326' r='2.2'/%3E%3Ccircle cx='531' cy='239' r='1.8'/%3E%3Ccircle cx='468' cy='183' r='1.6'/%3E%3Ccircle cx='542' cy='209' r='1.7'/%3E%3Ccircle cx='557' cy='293' r='1.8'/%3E%3Ccircle cx='488' cy='216' r='1.9'/%3E%3Ccircle cx='596' cy='146' r='1.8'/%3E%3Ccircle cx='704' cy='107' r='2.4'/%3E%3Ccircle cx='638' cy='129' r='1.6'/%3E%3Ccircle cx='657' cy='152' r='2.1'/%3E%3Ccircle cx='608' cy='158' r='1.6'/%3E%3Ccircle cx='626' cy='77' r='1.9'/%3E%3Ccircle cx='636' cy='105' r='2.1'/%3E%3Ccircle cx='698' cy='204' r='2.2'/%3E%3Ccircle cx='660' cy='123' r='2.4'/%3E%3Ccircle cx='594' cy='200' r='2.2'/%3E%3Ccircle cx='798' cy='180' r='2.2'/%3E%3Ccircle cx='776' cy='87' r='2.1'/%3E%3Ccircle cx='692' cy='221' r='2.3'/%3E%3Ccircle cx='780' cy='173' r='2.3'/%3E%3Ccircle cx='741' cy='194' r='1.8'/%3E%3Ccircle cx='651' cy='80' r='2.3'/%3E%3Ccircle cx='707' cy='180' r='2.1'/%3E%3Ccircle cx='740' cy='155' r='1.6'/%3E%3Ccircle cx='773' cy='204' r='2.1'/%3E%3Ccircle cx='699' cy='186' r='1.6'/%3E%3Ccircle cx='756' cy='108' r='1.7'/%3E%3Ccircle cx='626' cy='200' r='1.7'/%3E%3Ccircle cx='689' cy='134' r='1.9'/%3E%3Ccircle cx='741' cy='207' r='2.1'/%3E%3Ccircle cx='729' cy='75' r='1.7'/%3E%3Ccircle cx='623' cy='203' r='1.8'/%3E%3Ccircle cx='708' cy='63' r='1.6'/%3E%3Ccircle cx='626' cy='189' r='2.2'/%3E%3Ccircle cx='738' cy='116' r='2.1'/%3E%3Ccircle cx='680' cy='150' r='1.7'/%3E%3Ccircle cx='798' cy='99' r='2.4'/%3E%3Ccircle cx='678' cy='218' r='2.4'/%3E%3Ccircle cx='677' cy='111' r='1.7'/%3E%3Ccircle cx='713' cy='87' r='2.1'/%3E%3Ccircle cx='779' cy='158' r='2.3'/%3E%3Ccircle cx='746' cy='105' r='2.3'/%3E%3Ccircle cx='686' cy='65' r='1.6'/%3E%3Ccircle cx='687' cy='147' r='1.8'/%3E%3Ccircle cx='591' cy='126' r='1.8'/%3E%3Ccircle cx='632' cy='132' r='1.9'/%3E%3Ccircle cx='651' cy='143' r='1.8'/%3E%3Ccircle cx='566' cy='80' r='2.3'/%3E%3Ccircle cx='621' cy='111' r='2.1'/%3E%3Ccircle cx='605' cy='132' r='2.4'/%3E%3Ccircle cx='750' cy='69' r='2.2'/%3E%3Ccircle cx='677' cy='204' r='2.2'/%3E%3Ccircle cx='632' cy='69' r='2.3'/%3E%3Ccircle cx='587' cy='150' r='1.8'/%3E%3Ccircle cx='635' cy='203' r='2.4'/%3E%3Ccircle cx='624' cy='186' r='1.8'/%3E%3Ccircle cx='707' cy='135' r='1.7'/%3E%3Ccircle cx='597' cy='101' r='2.3'/%3E%3Ccircle cx='689' cy='102' r='2.3'/%3E%3Ccircle cx='591' cy='98' r='1.7'/%3E%3Ccircle cx='647' cy='78' r='1.8'/%3E%3Ccircle cx='624' cy='170' r='2.3'/%3E%3Ccircle cx='827' cy='342' r='1.9'/%3E%3Ccircle cx='804' cy='339' r='1.8'/%3E%3Ccircle cx='756' cy='332' r='2.4'/%3E%3Ccircle cx='764' cy='348' r='2.1'/%3E%3Ccircle cx='839' cy='327' r='1.8'/%3E%3Ccircle cx='776' cy='341' r='1.9'/%3E%3Ccircle cx='842' cy='347' r='2.1'/%3E%3Ccircle cx='765' cy='350' r='2.2'/%3E%3Ccircle cx='816' cy='368' r='1.9'/%3E%3Ccircle cx='830' cy='329' r='2.3'/%3E%3Ccircle cx='816' cy='335' r='1.7'/%3E%3Ccircle cx='776' cy='359' r='2.2'/%3E%3Ccircle cx='804' cy='354' r='1.9'/%3E%3Ccircle cx='773' cy='356' r='1.6'/%3E%3Ccircle cx='782' cy='345' r='2.4'/%3E%3Ccircle cx='816' cy='375' r='1.9'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat:no-repeat,no-repeat,repeat;
   background-position:0 0,0 0,center;
   background-size:auto,auto,960px 480px;
@@ -90,7 +90,7 @@ body::before{
   background-color:var(--black);
   background-image:
     radial-gradient(circle at 50% 45%,rgba(200,154,43,.09),transparent 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Cg fill='%23C89A2B' fill-opacity='.16' stroke='%23C89A2B' stroke-opacity='.62' stroke-width='2'%3E%3Cpath d='M82 145l39-50 69-27 78 8 42 30 45 7 24 39-34 23-18 44-44 26-20 58-33 20-27-54-38-26-11-50-42-19z'/%3E%3Cpath d='M288 319l41 25 23 48-8 62-29 82-26 20-16-73-26-59 9-69z'/%3E%3Cpath d='M495 123l36-32 48 5 26 25 37-8 27 21-13 28-45 9-23 31-55-4-36-29z'/%3E%3Cpath d='M550 211l75-19 54 31 16 70-28 111-51 73-39-40-21-76-42-57 7-59z'/%3E%3Cpath d='M650 137l74-39 105-12 90 30 103 1 84 53-23 42-79 7-28 45-69 1-48 39-67-21-34-54-70-23z'/%3E%3Cpath d='M963 380l58-33 74 20 34 58-41 48-79-7-38-39z'/%3E%3Cpath d='M1097 500l26-13 18 18-22 19z'/%3E%3C/g%3E%3Cg fill='%23F0C75E' fill-opacity='.75'%3E%3Ccircle cx='178' cy='174' r='4'/%3E%3Ccircle cx='583' cy='162' r='4'/%3E%3Ccircle cx='636' cy='276' r='4'/%3E%3Ccircle cx='819' cy='172' r='4'/%3E%3Ccircle cx='1031' cy='409' r='4'/%3E%3C/g%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www\\.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Cg fill='%23C89A2B' fill-opacity='.16' stroke='%23C89A2B' stroke-opacity='.62' stroke-width='2'%3E%3Cpath d='M82 145l39-50 69-27 78 8 42 30 45 7 24 39-34 23-18 44-44 26-20 58-33 20-27-54-38-26-11-50-42-19z'/%3E%3Cpath d='M288 319l41 25 23 48-8 62-29 82-26 20-16-73-26-59 9-69z'/%3E%3Cpath d='M495 123l36-32 48 5 26 25 37-8 27 21-13 28-45 9-23 31-55-4-36-29z'/%3E%3Cpath d='M550 211l75-19 54 31 16 70-28 111-51 73-39-40-21-76-42-57 7-59z'/%3E%3Cpath d='M650 137l74-39 105-12 90 30 103 1 84 53-23 42-79 7-28 45-69 1-48 39-67-21-34-54-70-23z'/%3E%3Cpath d='M963 380l58-33 74 20 34 58-41 48-79-7-38-39z'/%3E%3Cpath d='M1097 500l26-13 18 18-22 19z'/%3E%3C/g%3E%3Cg fill='%23F0C75E' fill-opacity='.75'%3E%3Ccircle cx='178' cy='174' r='4'/%3E%3Ccircle cx='583' cy='162' r='4'/%3E%3Ccircle cx='636' cy='276' r='4'/%3E%3Ccircle cx='819' cy='172' r='4'/%3E%3Ccircle cx='1031' cy='409' r='4'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat:no-repeat,repeat-x;
   background-position:center,0 center;
   background-size:100% 100%,1200px 600px;
@@ -339,6 +339,98 @@ html[dir="ltr"] .alert-error{background:rgba(214,40,40,.12);color:#fca5a5;border
   .header-actions .lang-switcher a{padding:3px 8px;font-size:10px}
 }
 
+/* ── Complete responsive layer: phone, tablet, laptop and wide screens ── */
+img,video,iframe,svg{max-width:100%}
+img{height:auto}
+.container,.header-inner,.navbar .container,.breaking-bar .container{width:100%}
+.site-brand,.header-actions,.search-form,.breaking-ticker,.widget-article-body{min-width:0}
+.site-brand img,.footer-logo{max-width:100%;object-fit:contain}
+.article-title,.card-title,.widget-article-title,.footer-links a,.footer-links span{overflow-wrap:anywhere}
+
+@media(min-width:1440px){
+  .container{max-width:1360px;padding-inline:28px}
+  .main-grid{grid-template-columns:minmax(0,1fr) 340px;gap:34px}
+  .articles-grid{gap:24px}
+}
+
+@media(min-width:769px) and (max-width:1180px){
+  .container{padding-inline:24px}
+  .header-inner{gap:14px}
+  .search-form{max-width:280px}
+  .nav-links li a{padding-inline:11px;font-size:12.5px}
+  .main-grid{grid-template-columns:minmax(0,1fr) 280px;gap:22px}
+  .articles-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer-main{grid-template-columns:1.5fr 1fr 1fr;gap:26px}
+}
+
+@media(max-width:900px){
+  .main-grid,.hero-grid{grid-template-columns:1fr!important}
+  .header-inner{flex-wrap:wrap}
+  .search-form{order:3;flex-basis:100%;max-width:none}
+  .navbar .container{justify-content:space-between}
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .article-card-featured .card-img{height:clamp(230px,45vw,360px)}
+  .footer-main{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:640px){
+  body{font-size:14px}
+  .container{padding-inline:14px}
+  .main-content{padding:20px 0}
+  .topbar{display:none}
+  .site-header{position:sticky;top:0}
+  .header-inner{padding:9px 0;gap:8px}
+  .site-brand{gap:8px;max-width:calc(100% - 52px)}
+  .site-brand img{max-width:150px;max-height:44px}
+  .brand-badge{width:40px;height:40px;font-size:17px}
+  .brand-name{font-size:16px}
+  .brand-tagline{font-size:9px}
+  .header-actions{gap:6px}
+  .btn-cta{padding:8px 10px;font-size:11px}
+  .lang-switcher{display:none}
+  .search-input,.search-btn{min-height:42px}
+  .breaking-bar{padding:7px 0}
+  .breaking-bar .container{gap:8px}
+  .breaking-label{padding:3px 8px;font-size:10px}
+  .breaking-ticker,.breaking-item{font-size:11px}
+  .breaking-item{padding-inline:12px}
+  .articles-grid,.articles-grid-4,.editor-picks-grid{grid-template-columns:1fr!important;gap:14px}
+  .article-card-img{height:clamp(190px,58vw,280px)}
+  .article-card-body{padding:14px}
+  .article-card-featured .card-img{height:clamp(210px,62vw,320px)}
+  .article-card-featured .card-body{padding:16px}
+  .article-card-featured .card-title{font-size:16px}
+  .section-header{gap:10px;align-items:flex-start}
+  .section-title{font-size:15px}
+  .section-more{font-size:11px;white-space:nowrap}
+  .widget-article{padding:11px 12px}
+  .newsletter-section{padding:24px 14px;margin:20px 0}
+  .newsletter-title{font-size:17px}
+  .newsletter-form{flex-direction:column;gap:9px}
+  .newsletter-input,.newsletter-btn{width:100%;border-radius:8px!important}
+  .footer-main{grid-template-columns:1fr;padding:30px 0;gap:24px}
+  .site-footer{margin-top:32px}
+  .mobile-nav{padding:20px 18px;padding-bottom:max(24px,env(safe-area-inset-bottom))}
+  .pagination a,.pagination span{padding:7px 11px;font-size:12px}
+}
+
+@media(max-width:380px){
+  .container{padding-inline:10px}
+  .site-brand img{max-width:125px}
+  .btn-cta{display:none}
+  .article-card-img{height:180px}
+  .widget-article-img{width:60px;height:54px}
+}
+
+@media(hover:none){
+  .article-card:hover,.article-card-featured:hover{transform:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
 
 
 /* ── Desktop categories dropdown ─────────────────────────── */
@@ -557,6 +649,7 @@ html[dir="ltr"] .nav-category-dropdown {
         @else
         {{-- <a href="{{ route('login') }}" class="btn-cta"><i class="fa-solid fa-right-to-bracket"></i> {{ __('messages.btn_login') }}</a> --}}
         @endauth
+
       </div>
     </div>
   </div>
@@ -628,6 +721,24 @@ html[dir="ltr"] .nav-category-dropdown {
             @endisset
           </a>
         </li>
+
+        {{-- <li>
+          <a href="{{ route('markets.index') }}" class="{{ request()->routeIs('markets.*') ? 'active' : '' }}">
+            <i class="fa-solid fa-chart-line"></i> {{ __('markets.nav') }}
+          </a>
+        </li> --}}
+
+        <li>
+
+<a
+    href="{{ route('about') }}"
+    class="{{ request()->routeIs('about') ? 'active' : '' }}"
+>
+    {{ __('messages.nav_about') }}
+</a>
+        </li>
+
+
         <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact*') ? 'active' : '' }}">{{ __('messages.nav_contact') }}</a></li>
       </ul>
     </div>
@@ -653,6 +764,9 @@ html[dir="ltr"] .nav-category-dropdown {
     <span style="background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px">{{ __('messages.live_badge') }}</span>
     @endisset
   </a>
+  {{-- <a href="{{ route('markets.index') }}">
+    <i class="fa-solid fa-chart-line"></i> {{ __('markets.nav') }}
+  </a> --}}
   <a href="{{ route('contact') }}">{{ __('messages.nav_contact') }}</a>
   <div style="display:flex;gap:8px;padding:16px 0;border-top:1px solid var(--border);margin-top:8px">
     <a href="{{ route('language.switch','ar') }}" style="padding:6px 14px;border-radius:6px;font-size:12px;font-weight:700;background:{{ $locale==='ar'?'var(--gold)':'var(--surface2)' }};color:{{ $locale==='ar'?'var(--black)':'rgba(255,255,255,.6)' }}">ع</a>
@@ -770,6 +884,7 @@ html[dir="ltr"] .nav-category-dropdown {
           <li><a href="{{ route('home') }}"><i class="fa-solid fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i>{{ __('messages.nav_home') }}</a></li>
           <li><a href="{{ route('videos.index') }}"><i class="fa-solid fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i>{{ __('messages.nav_videos') }}</a></li>
           <li><a href="{{ route('live') }}"><i class="fa-solid fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i>{{ __('messages.nav_live') }}</a></li>
+          {{-- <li><a href="{{ route('markets.index') }}"><i class="fa-solid fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i>{{ __('markets.nav') }}</a></li> --}}
           <li><a href="{{ route('contact') }}"><i class="fa-solid fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i>{{ __('messages.nav_contact') }}</a></li>
         </ul>
       </div>
